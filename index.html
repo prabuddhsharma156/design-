@@ -38,7 +38,7 @@
 <body class="bg-gray-100">
 
     <!-- Landing Page -->
-    <div id="landing-page" class="page active h-screen w-screen bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/159516/farmer-on-his-tractor-in-his-field-in-spring-plowing-his-field-agriculture-159516.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');">
+    <div id="landing-page" class="page active h-screen w-screen bg-cover bg-center" style="background-image: url('https://thumbs.dreamstime.com/b/asian-farmer-working-field-morning-time-farmer-examining-his-young-corn-plant-cultivated-agricultural-field-business-270414528.jpg');">
         <!-- Overlay -->
         <div class="h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center">
             <h1 class="text-white text-4xl md:text-6xl font-bold mb-4 text-center animate-pulse">किसान सहायक</h1>
@@ -55,7 +55,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
             <button onclick="showPage('weather-page')" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105">
                 <h3 class="text-2xl font-semibold">मौसम की जानकारी</h3>
-                <p class="mt-2">अगले 10 दिनों का पूर्वानुमान देखें</p>
+                <p class="mt-2">अगले 5 दिनों का पूर्वानुमान देखें</p>
             </button>
             <button onclick="showPage('pesticide-page')" class="bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition-transform transform hover:scale-105">
                 <h3 class="text-2xl font-semibold">कीटनाशक जानकारी</h3>
@@ -143,55 +143,37 @@
 
     <script>
         // --- CONFIGURATION ---
-        // IMPORTANT: Replace "YOUR_API_KEY" with your actual OpenWeatherMap API key.
-        const WEATHER_API_KEY = "a471efb91f4c4e29ac9135831252209"; 
+        // This is where you insert your API key from OpenWeatherMap.
+        const WEATHER_API_KEY = "a471efb91f4c4e29ac9135831252209"; // Keep your key here
 
         const locations = {
-            "उत्तर प्रदेश": ["लखनऊ", "कानपुर", "वाराणसी", "आगरा", "मेरठ"],
-            "पंजाब": ["लुधियाना", "अमृतसर", "जालंधर", "पटियाला", "बठिंडा"],
-            "हरियाणा": ["गुड़गांव", "फरीदाबाद", "पानीपत", "सोनीपत", "हिसार"],
-            "राजस्थान": ["जयपुर", "जोधपुर", "उदयपुर", "कोटा", "बीकानेर"],
-            "मध्य प्रदेश": ["भोपाल", "इंदौर", "ग्वालियर", "जबलपुर", "उज्जैन"],
+            "उत्तर प्रदेश": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut"],
+            "पंजाब": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda"],
+            "हरियाणा": ["Gurgaon", "Faridabad", "Panipat", "Sonipat", "Hisar"],
+            "राजस्थान": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner"],
+            "मध्य प्रदेश": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
         };
 
         const crops = {
-            "चावल": {
-                info: "धान के लिए, ट्राइसायक्लाजोल (Tricyclazole) का उपयोग ब्लास्ट रोग के नियंत्रण के लिए किया जाता है। ब्राउन प्लांट हॉपर के लिए इमिडाक्लोप्रिड (Imidacloprid) प्रभावी है। उपयोग से पहले विशेषज्ञ से सलाह अवश्य लें।",
-                mandi_price: 2000 // प्रति क्विंटल
-            },
-            "गेहूँ": {
-                info: "गेहूँ में दीमक के लिए क्लोरपायरीफॉस (Chlorpyrifos) का प्रयोग करें। खरपतवार नियंत्रण के लिए सल्फोसल्फ्यूरॉन (Sulfosulfuron) या 2,4-D का छिड़काव करें। हमेशा लेबल पर दिए गए निर्देशों का पालन करें।",
-                mandi_price: 2200 // प्रति क्विंटल
-            },
-            "मक्का": {
-                info: "मक्का में फॉल आर्मीवर्म के लिए इमामेक्टिन बेंजोएट (Emamectin Benzoate) का छिड़काव करें। तना छेदक के लिए कार्बोफ्यूरान (Carbofuran) का उपयोग किया जा सकता है। खुराक के लिए कृषि विशेषज्ञ से परामर्श करें।",
-                mandi_price: 1800 // प्रति क्विंटल
-            },
-            "कपास": {
-                info: "कपास में गुलाबी सुंडी (Pink Bollworm) के लिए फेनप्रोपेथ्रिन (Fenpropathrin) का उपयोग करें। सफेद मक्खी के लिए डायफेन्थियुरॉन (Diafenthiuron) का छिड़काव फायदेमंद है। सही समय और मात्रा का ध्यान रखें।",
-                mandi_price: 6500 // प्रति क्विंटल
-            },
-            "गन्ना": {
-                info: "गन्ने में अगेती तना छेदक के लिए फिप्रोनिल (Fipronil) का प्रयोग करें। पाइरिला कीट के नियंत्रण के लिए क्लोरपायरीफॉस (Chlorpyrifos) का छिड़काव करें। सुरक्षा उपकरणों का उपयोग अवश्य करें।",
-                mandi_price: 350 // प्रति क्विंटल
-            },
+            "चावल": { info: "धान के लिए, ट्राइसायक्लाजोल (Tricyclazole) का उपयोग ब्लास्ट रोग के नियंत्रण के लिए किया जाता है। ब्राउन प्लांट हॉपर के लिए इमिडाक्लोप्रिड (Imidacloprid) प्रभावी है। उपयोग से पहले विशेषज्ञ से सलाह अवश्य लें।", mandi_price: 2000 },
+            "गेहूँ": { info: "गेहूँ में दीमक के लिए क्लोरपायरीफॉस (Chlorpyrifos) का प्रयोग करें। खरपतवार नियंत्रण के लिए सल्फोसल्फ्यूरॉन (Sulfosulfuron) या 2,4-D का छिड़काव करें। हमेशा लेबल पर दिए गए निर्देशों का पालन करें।", mandi_price: 2200 },
+            "मक्का": { info: "मक्का में फॉल आर्मीवर्म के लिए इमामेक्टिन बेंजोएट (Emamectin Benzoate) का छिड़काव करें। तना छेदक के लिए कार्बोफ्यूरान (Carbofuran) का उपयोग किया जा सकता है। खुराक के लिए कृषि विशेषज्ञ से परामर्श करें।", mandi_price: 1800 },
+            "कपास": { info: "कपास में गुलाबी सुंडी (Pink Bollworm) के लिए फेनप्रोपेथ्रिन (Fenpropathrin) का उपयोग करें। सफेद मक्खी के लिए डायफेन्थियुरॉन (Diafenthiuron) का छिड़काव फायदेमंद है। सही समय और मात्रा का ध्यान रखें।", mandi_price: 6500 },
+            "गन्ना": { info: "गन्ने में अगेती तना छेदक के लिए फिप्रोनिल (Fipronil) का प्रयोग करें। पाइरिला कीट के नियंत्रण के लिए क्लोरपायरीफॉस (Chlorpyrifos) का छिड़काव करें। सुरक्षा उपकरणों का उपयोग अवश्य करें।", mandi_price: 350 },
         };
 
         // --- PAGE NAVIGATION ---
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
         }
 
-        // --- WEATHER LOGIC ---
+        // --- WEATHER LOGIC (UPDATED) ---
         const stateSelect = document.getElementById('state-select');
         const districtSelect = document.getElementById('district-select');
         const districtSelectionDiv = document.getElementById('district-selection');
         const weatherResultDiv = document.getElementById('weather-result');
 
-        // Populate states
         Object.keys(locations).forEach(state => {
             const option = document.createElement('option');
             option.value = state;
@@ -199,12 +181,10 @@
             stateSelect.appendChild(option);
         });
 
-        // Handle state change
         stateSelect.addEventListener('change', () => {
             const selectedState = stateSelect.value;
-            districtSelect.innerHTML = '<option value="">-- जिले का चयन करें --</option>'; // Reset districts
+            districtSelect.innerHTML = '<option value="">-- जिले का चयन करें --</option>';
             weatherResultDiv.innerHTML = '';
-
             if (selectedState) {
                 districtSelectionDiv.classList.remove('hidden');
                 locations[selectedState].forEach(district => {
@@ -217,48 +197,72 @@
                 districtSelectionDiv.classList.add('hidden');
             }
         });
-
-        // Handle district change (fetch weather)
+        
         districtSelect.addEventListener('change', () => {
             const selectedDistrict = districtSelect.value;
-            if (selectedDistrict) {
-                fetchWeather(selectedDistrict);
-            }
+            if (selectedDistrict) fetchWeather(selectedDistrict);
         });
 
         async function fetchWeather(district) {
-            if (WEATHER_API_KEY === "YOUR_API_KEY") {
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">त्रुटि: कृपया डेवलपर से संपर्क करें और वैध मौसम API कुंजी प्रदान करें।</div>`;
+            if (WEATHER_API_KEY === "YOUR_API_KEY" || !WEATHER_API_KEY) {
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">त्रुटि: मौसम API कुंजी कॉन्फ़िगर नहीं है।</div>`;
                 return;
             }
             
             weatherResultDiv.innerHTML = `<div class="text-center p-4">मौसम का डेटा लोड हो रहा है...</div>`;
-            const url = `https://api.openweathermap.org/data/2.5/forecast/daily?q=${district}&cnt=10&appid=${WEATHER_API_KEY}&units=metric&lang=hi`;
+            // Using the reliable 5-day/3-hour forecast API
+            const url = `https://api.openweathermap.org/data/2.5/forecast?q=${district}&appid=${WEATHER_API_KEY}&units=metric&lang=hi`;
 
             try {
                 const response = await fetch(url);
+                if (response.status === 401) {
+                     weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">API कुंजी अमान्य है। कृपया अपनी कुंजी जांचें।</div>`;
+                     return;
+                }
                 if (!response.ok) {
-                    throw new Error(`API से त्रुटि: ${response.statusText}`);
+                    throw new Error(`API Error: ${response.statusText}`);
                 }
                 const data = await response.json();
                 displayWeather(data);
             } catch (error) {
                 console.error("Weather fetch error:", error);
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">मौसम का डेटा प्राप्त करने में विफल। कृपया अपनी इंटरनेट कनेक्टिविटी जांचें या बाद में प्रयास करें।</div>`;
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">मौसम का डेटा प्राप्त करने में विफल। इंटरनेट कनेक्शन या शहर का नाम जांचें।</div>`;
             }
         }
 
         function displayWeather(data) {
             if (!data || !data.list) {
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">मौसम का डेटा उपलब्ध नहीं है।</div>`;
-                return;
+                 weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">मौसम का डेटा उपलब्ध नहीं है।</div>`;
+                 return;
             }
+            
+            // Group forecasts by day
+            const dailyForecasts = {};
+            data.list.forEach(item => {
+                const date = new Date(item.dt * 1000).toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                if (!dailyForecasts[date]) {
+                    dailyForecasts[date] = [];
+                }
+                dailyForecasts[date].push(item);
+            });
 
-            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.city.name} - अगले 10 दिन</h3>
+            // Process daily forecasts to get one representative forecast per day (e.g., for midday)
+            const processedForecasts = Object.keys(dailyForecasts).map(date => {
+                const dayData = dailyForecasts[date];
+                // Find the forecast closest to noon for a representative temperature
+                const middayForecast = dayData.reduce((prev, curr) => {
+                    const prevHour = new Date(prev.dt * 1000).getHours();
+                    const currHour = new Date(curr.dt * 1000).getHours();
+                    return (Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev);
+                });
+                return middayForecast;
+            });
+            
+            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.city.name} - अगले 5 दिन</h3>
                         <div class="weather-container overflow-x-auto pb-4">
                             <div class="flex space-x-4">`;
 
-            data.list.forEach(day => {
+            processedForecasts.forEach(day => {
                 const date = new Date(day.dt * 1000);
                 const dayName = date.toLocaleString('hi-IN', { weekday: 'short' });
                 const fullDate = date.toLocaleString('hi-IN', { day: 'numeric', month: 'short' });
@@ -268,9 +272,9 @@
                     <div class="flex-shrink-0 w-36 text-center bg-blue-100 p-4 rounded-lg shadow">
                         <p class="font-semibold text-blue-800">${dayName}, ${fullDate}</p>
                         <img src="${iconUrl}" alt="${day.weather[0].description}" class="mx-auto w-16 h-16">
-                        <p class="text-lg font-bold text-gray-800">${Math.round(day.temp.day)}°C</p>
+                        <p class="text-lg font-bold text-gray-800">${Math.round(day.main.temp)}°C</p>
                         <p class="text-sm text-gray-600 capitalize">${day.weather[0].description}</p>
-                        <p class="text-xs text-gray-500 mt-2">💧 ${day.humidity}%</p>
+                        <p class="text-xs text-gray-500 mt-2">💧 ${day.main.humidity}%</p>
                     </div>
                 `;
             });
@@ -279,11 +283,9 @@
             weatherResultDiv.innerHTML = html;
         }
 
-
         // --- PESTICIDE LOGIC ---
         const cropButtonsDiv = document.getElementById('crop-buttons');
         const pesticideInfoDiv = document.getElementById('pesticide-info');
-
         Object.keys(crops).forEach(cropName => {
             const button = document.createElement('button');
             button.className = 'bg-yellow-400 text-gray-800 p-4 rounded-lg shadow-md hover:bg-yellow-500 font-semibold transition-transform transform hover:scale-105';
@@ -291,32 +293,24 @@
             button.onclick = () => showPesticideInfo(cropName);
             cropButtonsDiv.appendChild(button);
         });
-
         function showPesticideInfo(cropName) {
             pesticideInfoDiv.classList.remove('hidden');
-            pesticideInfoDiv.innerHTML = `
-                <h4 class="text-xl font-bold text-gray-800 mb-2">${cropName}</h4>
-                <p class="text-gray-700">${crops[cropName].info}</p>
-            `;
+            pesticideInfoDiv.innerHTML = `<h4 class="text-xl font-bold text-gray-800 mb-2">${cropName}</h4><p class="text-gray-700">${crops[cropName].info}</p>`;
         }
 
         // --- PROFIT LOGIC ---
         const cropProfitSelect = document.getElementById('crop-profit-select');
         const costInput = document.getElementById('cost-input');
         const profitResultDiv = document.getElementById('profit-result');
-
-        // Populate crop dropdown for profit calculation
         Object.keys(crops).forEach(cropName => {
             const option = document.createElement('option');
             option.value = cropName;
             option.textContent = cropName;
             cropProfitSelect.appendChild(option);
         });
-
         function calculateProfit() {
             const selectedCrop = cropProfitSelect.value;
             const cost = parseFloat(costInput.value);
-
             if (!selectedCrop || isNaN(cost) || cost <= 0) {
                 profitResultDiv.innerHTML = `<p class="font-semibold text-red-700">कृपया मान्य फसल और लागत दर्ज करें।</p>`;
                 profitResultDiv.classList.remove('hidden');
@@ -324,15 +318,10 @@
                 profitResultDiv.classList.add('border-red-200', 'bg-red-100');
                 return;
             }
-
             const mandiPrice = crops[selectedCrop].mandi_price;
-            // Assuming an average yield per acre for calculation (this is a placeholder)
-            // Rice/Wheat: ~20 quintal, Maize: ~25 quintal, Cotton: ~10 quintal, Sugarcane: ~300 quintal
             const averageYield = { "चावल": 20, "गेहूँ": 20, "मक्का": 25, "कपास": 10, "गन्ना": 300 }[selectedCrop];
-            
             const totalIncome = mandiPrice * averageYield;
             const profit = totalIncome - cost;
-
             profitResultDiv.innerHTML = `
                 <h4 class="text-xl font-bold text-green-800 mb-2">${selectedCrop} के लिए लाभ विश्लेषण</h4>
                 <p class="text-gray-700">अनुमानित मंडी भाव: <span class="font-semibold">₹${mandiPrice}/क्विंटल</span></p>
@@ -340,13 +329,11 @@
                 <p class="text-gray-700">कुल आय: <span class="font-semibold">₹${totalIncome.toLocaleString('hi-IN')}</span></p>
                 <p class="text-gray-700">आपकी लागत: <span class="font-semibold">- ₹${cost.toLocaleString('hi-IN')}</span></p>
                 <hr class="my-2">
-                <p class="text-lg text-green-900">अनुमानित शुद्ध लाभ (प्रति एकड़): <span class="font-bold text-2xl">₹${profit.toLocaleString('hi-IN')}</span></p>
-            `;
+                <p class="text-lg text-green-900">अनुमानित शुद्ध लाभ (प्रति एकड़): <span class="font-bold text-2xl">₹${profit.toLocaleString('hi-IN')}</span></p>`;
             profitResultDiv.classList.remove('hidden');
             profitResultDiv.classList.remove('border-red-200', 'bg-red-100');
             profitResultDiv.classList.add('border-green-200', 'bg-green-100');
         }
-
     </script>
 </body>
 </html>
