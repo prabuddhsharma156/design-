@@ -11,12 +11,25 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+            background-image: url('https://thumbs.dreamstime.com/b/asian-farmer-working-field-morning-time-farmer-examining-his-young-corn-plant-cultivated-agricultural-field-business-270414528.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         .page {
             display: none;
         }
         .page.active {
-            display: block;
+            display: flex; /* Use flexbox for centering content */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+        }
+        /* The landing page doesn't need a content box, just the overlay */
+        #landing-page {
+            background-color: rgba(0, 0, 0, 0.5);
         }
         /* Custom scrollbar for weather forecast */
         .weather-container::-webkit-scrollbar {
@@ -33,14 +46,18 @@
         .weather-container::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        .content-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
     <!-- Landing Page -->
-    <div id="landing-page" class="page active h-screen w-screen bg-cover bg-center" style="background-image: url('https://thumbs.dreamstime.com/b/asian-farmer-working-field-morning-time-farmer-examining-his-young-corn-plant-cultivated-agricultural-field-business-270414528.jpg');">
-        <!-- Overlay -->
-        <div class="h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center">
+    <div id="landing-page" class="page active">
+        <div class="text-center p-4">
             <h1 class="text-white text-4xl md:text-6xl font-bold mb-4 text-center animate-pulse">किसान सहायक</h1>
             <p class="text-white text-lg md:text-2xl mb-8 text-center">आपका विश्वसनीय कृषि साथी</p>
             <button onclick="showPage('menu-page')" class="bg-green-600 text-white text-xl font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105">
@@ -50,100 +67,88 @@
     </div>
 
     <!-- Menu Page -->
-    <div id="menu-page" class="page p-4 md:p-8 min-h-screen flex flex-col justify-center items-center bg-green-50">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">मुख्य मेनू</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-            <button onclick="showPage('weather-page')" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105">
-                <h3 class="text-2xl font-semibold">मौसम की जानकारी</h3>
-                <p class="mt-2">अगले 5 दिनों का पूर्वानुमान देखें</p>
-            </button>
-            <button onclick="showPage('pesticide-page')" class="bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition-transform transform hover:scale-105">
-                <h3 class="text-2xl font-semibold">कीटनाशक जानकारी</h3>
-                <p class="mt-2">फसलों के लिए सही कीटनाशक चुनें</p>
-            </button>
-            <button onclick="showPage('profit-page')" class="bg-green-500 text-white p-6 rounded-lg shadow-md hover:bg-green-600 transition-transform transform hover:scale-105">
-                <h3 class="text-2xl font-semibold">लाभ गणना</h3>
-                <p class="mt-2">अपनी फसल का मुनाफा जानें</p>
-            </button>
-             <button onclick="showPage('landing-page')" class="bg-gray-500 text-white p-6 rounded-lg shadow-md hover:bg-gray-600 transition-transform transform hover:scale-105">
-                <h3 class="text-2xl font-semibold">बाहर निकलें</h3>
-                <p class="mt-2">ऐप से बाहर जाने के लिए</p>
-            </button>
+    <div id="menu-page" class="page p-4 md:p-8">
+        <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">मुख्य मेनू</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button onclick="showPage('weather-page')" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105">
+                    <h3 class="text-2xl font-semibold">मौसम की जानकारी</h3>
+                    <p class="mt-2">अगले 5 दिनों का पूर्वानुमान देखें</p>
+                </button>
+                <button onclick="showPage('pesticide-page')" class="bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition-transform transform hover:scale-105">
+                    <h3 class="text-2xl font-semibold">कीटनाशक जानकारी</h3>
+                    <p class="mt-2">फसलों के लिए सही कीटनाशक चुनें</p>
+                </button>
+                <button onclick="showPage('profit-page')" class="bg-green-500 text-white p-6 rounded-lg shadow-md hover:bg-green-600 transition-transform transform hover:scale-105">
+                    <h3 class="text-2xl font-semibold">लाभ गणना</h3>
+                    <p class="mt-2">अपनी फसल का मुनाफा जानें</p>
+                </button>
+                 <button onclick="showPage('landing-page')" class="bg-gray-500 text-white p-6 rounded-lg shadow-md hover:bg-gray-600 transition-transform transform hover:scale-105">
+                    <h3 class="text-2xl font-semibold">बाहर निकलें</h3>
+                    <p class="mt-2">ऐप से बाहर जाने के लिए</p>
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Weather Page -->
-    <div id="weather-page" class="page p-4 md:p-8 min-h-screen bg-blue-50">
-        <div class="max-w-4xl mx-auto">
+    <div id="weather-page" class="page p-4 md:p-8">
+        <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
             <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">मौसम की जानकारी</h2>
-                
-                <div class="mb-4">
-                    <label for="state-select" class="block text-lg font-medium text-gray-700 mb-2">1. राज्य चुनें:</label>
-                    <select id="state-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">-- राज्य का चयन करें --</option>
-                    </select>
-                </div>
-
-                <div id="district-selection" class="mb-6 hidden">
-                    <label for="district-select" class="block text-lg font-medium text-gray-700 mb-2">2. जिला चुनें:</label>
-                    <select id="district-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">-- जिले का चयन करें --</option>
-                    </select>
-                </div>
-
-                <div id="weather-result" class="mt-6"></div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">मौसम की जानकारी</h2>
+            <div class="mb-4">
+                <label for="state-select" class="block text-lg font-medium text-gray-700 mb-2">1. राज्य चुनें:</label>
+                <select id="state-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">-- राज्य का चयन करें --</option>
+                </select>
             </div>
+            <div id="district-selection" class="mb-6 hidden">
+                <label for="district-select" class="block text-lg font-medium text-gray-700 mb-2">2. जिला चुनें:</label>
+                <select id="district-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">-- जिले का चयन करें --</option>
+                </select>
+            </div>
+            <div id="weather-result" class="mt-6"></div>
         </div>
     </div>
 
     <!-- Pesticide Page -->
-    <div id="pesticide-page" class="page p-4 md:p-8 min-h-screen bg-yellow-50">
-        <div class="max-w-4xl mx-auto">
+    <div id="pesticide-page" class="page p-4 md:p-8">
+        <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
             <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">कीटनाशक जानकारी</h2>
-                <p class="text-center text-gray-600 mb-6">जानकारी देखने के लिए अपनी फसल चुनें:</p>
-                <div id="crop-buttons" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <!-- Crop buttons will be inserted here by JavaScript -->
-                </div>
-                <div id="pesticide-info" class="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden"></div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">कीटनाशक जानकारी</h2>
+            <p class="text-center text-gray-600 mb-6">जानकारी देखने के लिए अपनी फसल चुनें:</p>
+            <div id="crop-buttons" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Crop buttons will be inserted here by JavaScript -->
             </div>
+            <div id="pesticide-info" class="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden"></div>
         </div>
     </div>
 
     <!-- Profit Page -->
-    <div id="profit-page" class="page p-4 md:p-8 min-h-screen bg-green-50">
-         <div class="max-w-4xl mx-auto">
+    <div id="profit-page" class="page p-4 md:p-8">
+         <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
             <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">लाभ गणना</h2>
-                
-                <div class="mb-4">
-                    <label for="crop-profit-select" class="block text-lg font-medium text-gray-700 mb-2">फसल चुनें:</label>
-                    <select id="crop-profit-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
-                         <!-- Options will be populated by JS -->
-                    </select>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="cost-input" class="block text-lg font-medium text-gray-700 mb-2">कुल लागत दर्ज करें (प्रति एकड़):</label>
-                    <input type="number" id="cost-input" placeholder="उदाहरण: 15000" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
-                </div>
-
-                <button onclick="calculateProfit()" class="w-full bg-green-600 text-white text-lg font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition-transform transform hover:scale-105">
-                    लाभ की गणना करें
-                </button>
-
-                <div id="profit-result" class="mt-6 hidden text-center p-4 border border-green-200 rounded-lg bg-green-100"></div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">लाभ गणना</h2>
+            <div class="mb-4">
+                <label for="crop-profit-select" class="block text-lg font-medium text-gray-700 mb-2">फसल चुनें:</label>
+                <select id="crop-profit-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
+                     <!-- Options will be populated by JS -->
+                </select>
             </div>
+            <div class="mb-4">
+                <label for="cost-input" class="block text-lg font-medium text-gray-700 mb-2">कुल लागत दर्ज करें (प्रति एकड़):</label>
+                <input type="number" id="cost-input" placeholder="उदाहरण: 15000" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+            <button onclick="calculateProfit()" class="w-full bg-green-600 text-white text-lg font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition-transform transform hover:scale-105">
+                लाभ की गणना करें
+            </button>
+            <div id="profit-result" class="mt-6 hidden text-center p-4 border border-green-200 rounded-lg bg-green-100"></div>
         </div>
     </div>
 
     <script>
         // --- CONFIGURATION ---
-        // This is where you insert your API key from OpenWeatherMap.
         const WEATHER_API_KEY = "a471efb91f4c4e29ac9135831252209"; // Keep your key here
 
         const locations = {
@@ -153,7 +158,6 @@
             "राजस्थान": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner"],
             "मध्य प्रदेश": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
         };
-
         const crops = {
             "चावल": { info: "धान के लिए, ट्राइसायक्लाजोल (Tricyclazole) का उपयोग ब्लास्ट रोग के नियंत्रण के लिए किया जाता है। ब्राउन प्लांट हॉपर के लिए इमिडाक्लोप्रिड (Imidacloprid) प्रभावी है। उपयोग से पहले विशेषज्ञ से सलाह अवश्य लें।", mandi_price: 2000 },
             "गेहूँ": { info: "गेहूँ में दीमक के लिए क्लोरपायरीफॉस (Chlorpyrifos) का प्रयोग करें। खरपतवार नियंत्रण के लिए सल्फोसल्फ्यूरॉन (Sulfosulfuron) या 2,4-D का छिड़काव करें। हमेशा लेबल पर दिए गए निर्देशों का पालन करें।", mandi_price: 2200 },
@@ -168,7 +172,7 @@
             document.getElementById(pageId).classList.add('active');
         }
 
-        // --- WEATHER LOGIC (UPDATED) ---
+        // --- WEATHER LOGIC (IMPROVED) ---
         const stateSelect = document.getElementById('state-select');
         const districtSelect = document.getElementById('district-select');
         const districtSelectionDiv = document.getElementById('district-selection');
@@ -204,57 +208,51 @@
         });
 
         async function fetchWeather(district) {
-            if (WEATHER_API_KEY === "YOUR_API_KEY" || !WEATHER_API_KEY) {
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">त्रुटि: मौसम API कुंजी कॉन्फ़िगर नहीं है।</div>`;
+            if (WEATHER_API_KEY === "a471efb91f4c4e29ac9135831252209" || !WEATHER_API_KEY) {
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>त्रुटि:</strong> मौसम API कुंजी कॉन्फ़िगर नहीं है। कृपया कोड में 'YOUR_API_KEY' को अपनी वास्तविक कुंजी से बदलें।</div>`;
                 return;
             }
             
             weatherResultDiv.innerHTML = `<div class="text-center p-4">मौसम का डेटा लोड हो रहा है...</div>`;
-            // Using the reliable 5-day/3-hour forecast API
             const url = `https://api.openweathermap.org/data/2.5/forecast?q=${district}&appid=${WEATHER_API_KEY}&units=metric&lang=hi`;
+            
+            // For debugging: log the URL to the console
+            console.log("Fetching weather from URL:", url);
 
             try {
                 const response = await fetch(url);
                 if (response.status === 401) {
-                     weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">API कुंजी अमान्य है। कृपया अपनी कुंजी जांचें।</div>`;
+                     weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>API कुंजी त्रुटि:</strong> प्रदान की गई API कुंजी अमान्य है। कृपया अपनी कुंजी जांचें।</div>`;
                      return;
                 }
                 if (!response.ok) {
+                     weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>त्रुटि:</strong> शहर नहीं मिला। कृपया चयन की समीक्षा करें। (HTTP ${response.status})</div>`;
                     throw new Error(`API Error: ${response.statusText}`);
                 }
                 const data = await response.json();
                 displayWeather(data);
             } catch (error) {
                 console.error("Weather fetch error:", error);
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">मौसम का डेटा प्राप्त करने में विफल। इंटरनेट कनेक्शन या शहर का नाम जांचें।</div>`;
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>कनेक्शन त्रुटि:</strong> मौसम का डेटा प्राप्त करने में विफल। अपना इंटरनेट कनेक्शन जांचें।</div>`;
             }
         }
 
         function displayWeather(data) {
-            if (!data || !data.list) {
-                 weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">मौसम का डेटा उपलब्ध नहीं है।</div>`;
+            if (!data || !data.list || data.list.length === 0) {
+                 weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">इस स्थान के लिए मौसम का डेटा उपलब्ध नहीं है।</div>`;
                  return;
             }
             
-            // Group forecasts by day
             const dailyForecasts = {};
             data.list.forEach(item => {
                 const date = new Date(item.dt * 1000).toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                if (!dailyForecasts[date]) {
-                    dailyForecasts[date] = [];
-                }
+                if (!dailyForecasts[date]) dailyForecasts[date] = [];
                 dailyForecasts[date].push(item);
             });
 
-            // Process daily forecasts to get one representative forecast per day (e.g., for midday)
             const processedForecasts = Object.keys(dailyForecasts).map(date => {
                 const dayData = dailyForecasts[date];
-                // Find the forecast closest to noon for a representative temperature
-                const middayForecast = dayData.reduce((prev, curr) => {
-                    const prevHour = new Date(prev.dt * 1000).getHours();
-                    const currHour = new Date(curr.dt * 1000).getHours();
-                    return (Math.abs(currHour - 12) < Math.abs(prevHour - 12) ? curr : prev);
-                });
+                const middayForecast = dayData.reduce((prev, curr) => (Math.abs(new Date(curr.dt * 1000).getHours() - 12) < Math.abs(new Date(prev.dt * 1000).getHours() - 12) ? curr : prev));
                 return middayForecast;
             });
             
@@ -275,8 +273,7 @@
                         <p class="text-lg font-bold text-gray-800">${Math.round(day.main.temp)}°C</p>
                         <p class="text-sm text-gray-600 capitalize">${day.weather[0].description}</p>
                         <p class="text-xs text-gray-500 mt-2">💧 ${day.main.humidity}%</p>
-                    </div>
-                `;
+                    </div>`;
             });
 
             html += `</div></div>`;
