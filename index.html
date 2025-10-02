@@ -26,30 +26,34 @@
             align-items: center;
             min-height: 100vh;
             width: 100%;
+            padding: 1rem;
         }
         /* The landing page doesn't need a content box, just the overlay */
         #landing-page {
             background-color: rgba(0, 0, 0, 0.5);
         }
-        /* Custom scrollbar for weather forecast */
-        .weather-container::-webkit-scrollbar {
+        /* Custom scrollbar for all scrollable elements */
+        .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
-        .weather-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e0e0e0;
             border-radius: 10px;
         }
-        .weather-container::-webkit-scrollbar-thumb {
+        .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 10px;
         }
-        .weather-container::-webkit-scrollbar-thumb:hover {
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
         .content-card {
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            max-height: 90vh; /* Prevent card from being taller than the viewport */
+            overflow-y: auto; /* Add vertical scroll inside the card if needed */
         }
     </style>
 </head>
@@ -67,8 +71,8 @@
     </div>
 
     <!-- Menu Page -->
-    <div id="menu-page" class="page p-4 md:p-8">
-        <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
+    <div id="menu-page" class="page">
+        <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">मुख्य मेनू</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <button onclick="showPage('weather-page')" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105">
@@ -92,8 +96,8 @@
     </div>
 
     <!-- Weather Page -->
-    <div id="weather-page" class="page p-4 md:p-8">
-        <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
+    <div id="weather-page" class="page">
+        <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
             <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
             <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">मौसम की जानकारी</h2>
             <div class="mb-4">
@@ -113,8 +117,8 @@
     </div>
 
     <!-- Pesticide Page -->
-    <div id="pesticide-page" class="page p-4 md:p-8">
-        <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
+    <div id="pesticide-page" class="page">
+        <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
             <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
             <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">कीटनाशक जानकारी</h2>
             <p class="text-center text-gray-600 mb-6">जानकारी देखने के लिए अपनी फसल चुनें:</p>
@@ -126,8 +130,8 @@
     </div>
 
     <!-- Profit Page -->
-    <div id="profit-page" class="page p-4 md:p-8">
-         <div class="content-card rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
+    <div id="profit-page" class="page">
+         <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
             <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
             <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">लाभ गणना</h2>
             <div class="mb-4">
@@ -148,9 +152,16 @@
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        const WEATHER_API_KEY = "a471efb91f4c4e29ac9135831252209"; // Keep your key here
+        // ==============================================================================
+        // ======================= महत्वपूर्ण कॉन्फ़िगरेशन =========================
+        //
+        // अपनी OpenWeatherMap API कुंजी को नीचे दिए गए "" के बीच पेस्ट करें।
+        // उदाहरण: const WEATHER_API_KEY = "ab123xyz789";
+        //
+        // ==============================================================================
+        const WEATHER_API_KEY = "a471efb91f4c4e29ac9135831252209";
 
+        // --- Other Configurations ---
         const locations = {
             "उत्तर प्रदेश": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut"],
             "पंजाब": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda"],
@@ -208,7 +219,7 @@
         });
 
         async function fetchWeather(district) {
-            if (WEATHER_API_KEY === "a471efb91f4c4e29ac9135831252209" || !WEATHER_API_KEY) {
+            if (WEATHER_API_KEY === "YOUR_API_KEY" || !WEATHER_API_KEY) {
                 weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>त्रुटि:</strong> मौसम API कुंजी कॉन्फ़िगर नहीं है। कृपया कोड में 'YOUR_API_KEY' को अपनी वास्तविक कुंजी से बदलें।</div>`;
                 return;
             }
@@ -216,7 +227,6 @@
             weatherResultDiv.innerHTML = `<div class="text-center p-4">मौसम का डेटा लोड हो रहा है...</div>`;
             const url = `https://api.openweathermap.org/data/2.5/forecast?q=${district}&appid=${WEATHER_API_KEY}&units=metric&lang=hi`;
             
-            // For debugging: log the URL to the console
             console.log("Fetching weather from URL:", url);
 
             try {
@@ -257,7 +267,7 @@
             });
             
             let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.city.name} - अगले 5 दिन</h3>
-                        <div class="weather-container overflow-x-auto pb-4">
+                        <div class="custom-scrollbar overflow-x-auto pb-4">
                             <div class="flex space-x-4">`;
 
             processedForecasts.forEach(day => {
