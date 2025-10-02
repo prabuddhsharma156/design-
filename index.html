@@ -77,7 +77,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <button onclick="showPage('weather-page')" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105">
                     <h3 class="text-2xl font-semibold">मौसम की जानकारी</h3>
-                    <p class="mt-2">अगले 5 दिनों का पूर्वानुमान देखें</p>
+                    <p class="mt-2">अगले 10 दिनों का पूर्वानुमान देखें</p>
                 </button>
                 <button onclick="showPage('pesticide-page')" class="bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition-transform transform hover:scale-105">
                     <h3 class="text-2xl font-semibold">कीटनाशक जानकारी</h3>
@@ -225,7 +225,7 @@
             }
             
             weatherResultDiv.innerHTML = `<div class="text-center p-4">Loading weather data...</div>`;
-            const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${district}&days=5&aqi=no&alerts=no&lang=hi`;
+            const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${district}&days=10&aqi=no&alerts=no&lang=hi`;
             
             console.log("Fetching weather from URL:", url);
 
@@ -262,7 +262,7 @@
                  return;
             }
             
-            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.location.name} - 5-Day Forecast</h3>
+            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.location.name} - 10-Day Forecast</h3>
                         <div class="custom-scrollbar overflow-x-auto pb-4">
                             <div class="flex space-x-4">`;
 
