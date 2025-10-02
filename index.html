@@ -170,11 +170,46 @@
             "मध्य प्रदेश": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
         };
         const crops = {
-            "चावल": { info: "धान के लिए, ट्राइसायक्लाजोल (Tricyclazole) का उपयोग ब्लास्ट रोग के नियंत्रण के लिए किया जाता है। ब्राउन प्लांट हॉपर के लिए इमिडाक्लोप्रिड (Imidacloprid) प्रभावी है। उपयोग से पहले विशेषज्ञ से सलाह अवश्य लें।", mandi_price: 2000 },
-            "गेहूँ": { info: "गेहूँ में दीमक के लिए क्लोरपायरीफॉस (Chlorpyrifos) का प्रयोग करें। खरपतवार नियंत्रण के लिए सल्फोसल्फ्यूरॉन (Sulfosulfuron) या 2,4-D का छिड़काव करें। हमेशा लेबल पर दिए गए निर्देशों का पालन करें।", mandi_price: 2200 },
-            "मक्का": { info: "मक्का में फॉल आर्मीवर्म के लिए इमामेक्टिन बेंजोएट (Emamectin Benzoate) का छिड़काव करें। तना छेदक के लिए कार्बोफ्यूरान (Carbofuran) का उपयोग किया जा सकता है। खुराक के लिए कृषि विशेषज्ञ से परामर्श करें।", mandi_price: 1800 },
-            "कपास": { info: "कपास में गुलाबी सुंडी (Pink Bollworm) के लिए फेनप्रोपेथ्रिन (Fenpropathrin) का उपयोग करें। सफेद मक्खी के लिए डायफेन्थियुरॉन (Diafenthiuron) का छिड़काव फायदेमंद है। सही समय और मात्रा का ध्यान रखें।", mandi_price: 6500 },
-            "गन्ना": { info: "गन्ने में अगेती तना छेदक के लिए फिप्रोनिल (Fipronil) का प्रयोग करें। पाइरिला कीट के नियंत्रण के लिए क्लोरपायरीफॉस (Chlorpyrifos) का छिड़काव करें। सुरक्षा उपकरणों का उपयोग अवश्य करें।", mandi_price: 350 },
+            "चावल": {
+                mandi_price: 2000,
+                pesticides: [
+                    { name: "ट्राइसायक्लाजोल (Tricyclazole)", target: "ब्लास्ट रोग", quantity: "120 ग्राम प्रति एकड़" },
+                    { name: "इमिडाक्लोप्रिड (Imidacloprid)", target: "ब्राउन प्लांट हॉपर", quantity: "50-60 मिली प्रति एकड़" },
+                    { name: "बुप्रोफेजिन (Buprofezin)", target: "सफ़ेद पीठ वाला फुदका", quantity: "330 मिली प्रति एकड़" }
+                ]
+            },
+            "गेहूँ": {
+                mandi_price: 2200,
+                pesticides: [
+                    { name: "क्लोरपायरीफॉस (Chlorpyrifos)", target: "दीमक", quantity: "1 लीटर प्रति एकड़" },
+                    { name: "सल्फोसल्फ्यूरॉन (Sulfosulfuron)", target: "खरपतवार (गुल्ली-डंडा)", quantity: "13.5 ग्राम प्रति एकड़" },
+                    { name: "प्रोपीकोनाजोल (Propiconazole)", target: "रस्ट (गेरुआ) रोग", quantity: "200 मिली प्रति एकड़" }
+                ]
+            },
+            "मक्का": {
+                mandi_price: 1800,
+                pesticides: [
+                    { name: "इमामेक्टिन बेंजोएट (Emamectin Benzoate)", target: "फॉल आर्मीवर्म", quantity: "80-100 ग्राम प्रति एकड़" },
+                    { name: "कार्बोफ्यूरान (Carbofuran)", target: "तना छेदक", quantity: "3 किलो दानेदार प्रति एकड़" },
+                    { name: "एट्राजिन (Atrazine)", target: "चौड़ी पत्ती वाले खरपतवार", quantity: "500-800 ग्राम प्रति एकड़" }
+                ]
+            },
+            "कपास": {
+                mandi_price: 6500,
+                pesticides: [
+                    { name: "फेनप्रोपेथ्रिन (Fenpropathrin)", target: "गुलाबी सुंडी (Pink Bollworm)", quantity: "300-400 मिली प्रति एकड़" },
+                    { name: "डायफेन्थियुरॉन (Diafenthiuron)", target: "सफेद मक्खी", quantity: "250 ग्राम प्रति एकड़" },
+                    { name: "एसिटामिप्रिड (Acetamiprid)", target: "माहू/तेला (Aphids/Jassids)", quantity: "40-50 ग्राम प्रति एकड़" }
+                ]
+            },
+            "गन्ना": {
+                mandi_price: 350,
+                pesticides: [
+                    { name: "फिप्रोनिल (Fipronil)", target: "अगेती तना छेदक", quantity: "1-1.5 किलो दानेदार प्रति एकड़" },
+                    { name: "क्लोरपायरीफॉस (Chlorpyrifos)", target: "पाइरिला कीट", quantity: "600 मिली प्रति एकड़" },
+                    { name: "मेट्रिब्यूज़िन (Metribuzin)", target: "खरपतवार नियंत्रण", quantity: "400-600 ग्राम प्रति एकड़" }
+                ]
+            },
         };
 
         // --- PAGE NAVIGATION ---
@@ -298,7 +333,22 @@
         });
         function showPesticideInfo(cropName) {
             pesticideInfoDiv.classList.remove('hidden');
-            pesticideInfoDiv.innerHTML = `<h4 class="text-xl font-bold text-gray-800 mb-2">${cropName}</h4><p class="text-gray-700">${crops[cropName].info}</p>`;
+            const cropData = crops[cropName];
+            let html = `<h4 class="text-xl font-bold text-gray-800 mb-4">${cropName} के लिए कीटनाशक सुझाव</h4>`;
+            
+            cropData.pesticides.forEach(pest => {
+                html += `
+                    <div class="mb-4 p-3 border rounded-lg bg-white shadow-sm">
+                        <p class="font-bold text-lg text-green-700">${pest.name}</p>
+                        <p class="text-gray-600"><span class="font-semibold">लक्ष्य:</span> ${pest.target}</p>
+                        <p class="text-gray-600"><span class="font-semibold">मात्रा:</span> ${pest.quantity}</p>
+                    </div>
+                `;
+            });
+            
+             html += `<p class="mt-4 text-sm text-red-600"><strong>अस्वीकरण:</strong> किसी भी कीटनाशक का उपयोग करने से पहले कृपया एक स्थानीय कृषि विशेषज्ञ से सलाह लें। मात्रा और उपयोग विधि मिट्टी और मौसम की स्थिति के आधार पर भिन्न हो सकती है।</p>`;
+
+            pesticideInfoDiv.innerHTML = html;
         }
 
         // --- PROFIT LOGIC ---
