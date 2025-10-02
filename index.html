@@ -153,10 +153,10 @@
 
     <script>
         // ==============================================================================
-        // ======================= महत्वपूर्ण कॉन्फ़िगरेशन =========================
+        // ======================= IMPORTANT CONFIGURATION ==============================
         //
-        // अपनी OpenWeatherMap API कुंजी को नीचे दिए गए "" के बीच पेस्ट करें।
-        // उदाहरण: const WEATHER_API_KEY = "ab123xyz789";
+        // Paste your API Key from weatherapi.com between the "" below.
+        // Example: const WEATHER_API_KEY = "ab123xyz789";
         //
         // ==============================================================================
         const WEATHER_API_KEY = "a471efb91f4c4e29ac9135831252209";
@@ -183,7 +183,7 @@
             document.getElementById(pageId).classList.add('active');
         }
 
-        // --- WEATHER LOGIC (IMPROVED) ---
+        // --- WEATHER LOGIC (UPDATED FOR WEATHERAPI.COM) ---
         const stateSelect = document.getElementById('state-select');
         const districtSelect = document.getElementById('district-select');
         const districtSelectionDiv = document.getElementById('district-selection');
@@ -220,69 +220,65 @@
 
         async function fetchWeather(district) {
             if (WEATHER_API_KEY === "YOUR_API_KEY" || !WEATHER_API_KEY) {
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>त्रुटि:</strong> मौसम API कुंजी कॉन्फ़िगर नहीं है। कृपया कोड में 'YOUR_API_KEY' को अपनी वास्तविक कुंजी से बदलें।</div>`;
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>Error:</strong> Weather API Key is not configured. Please get a key from weatherapi.com and paste it in the code.</div>`;
                 return;
             }
             
-            weatherResultDiv.innerHTML = `<div class="text-center p-4">मौसम का डेटा लोड हो रहा है...</div>`;
-            const url = `https://api.openweathermap.org/data/2.5/forecast?q=${district}&appid=${WEATHER_API_KEY}&units=metric&lang=hi`;
+            weatherResultDiv.innerHTML = `<div class="text-center p-4">Loading weather data...</div>`;
+            const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${district}&days=5&aqi=no&alerts=no&lang=hi`;
             
             console.log("Fetching weather from URL:", url);
 
             try {
                 const response = await fetch(url);
-                if (response.status === 401) {
-                     weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>API कुंजी त्रुटि:</strong> प्रदान की गई API कुंजी अमान्य है। कृपया अपनी कुंजी जांचें।</div>`;
-                     return;
-                }
-                if (!response.ok) {
-                     weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>त्रुटि:</strong> शहर नहीं मिला। कृपया चयन की समीक्षा करें। (HTTP ${response.status})</div>`;
-                    throw new Error(`API Error: ${response.statusText}`);
-                }
                 const data = await response.json();
+
+                if (!response.ok) {
+                    if (data.error) {
+                        console.error("API Error:", data.error.message);
+                        let userMessage = `<strong>API Error:</strong> ${data.error.message}`;
+                        if (data.error.code === 2006) {
+                           userMessage = `<strong>Invalid API Key:</strong> The key provided is invalid. Please check your key from weatherapi.com.`;
+                        } else if (data.error.code === 1006) {
+                           userMessage = `<strong>Error:</strong> City not found. Please review the selection.`;
+                        }
+                        weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">${userMessage}</div>`;
+                    } else {
+                         weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>Error:</strong> An unknown API error occurred. (HTTP ${response.status})</div>`;
+                    }
+                    return;
+                }
+                
                 displayWeather(data);
             } catch (error) {
-                console.error("Weather fetch error:", error);
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>कनेक्शन त्रुटि:</strong> मौसम का डेटा प्राप्त करने में विफल। अपना इंटरनेट कनेक्शन जांचें।</div>`;
+                console.error("Connection Error:", error);
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>Connection Error:</strong> Failed to get weather data. Please check your internet connection.</div>`;
             }
         }
 
         function displayWeather(data) {
-            if (!data || !data.list || data.list.length === 0) {
-                 weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">इस स्थान के लिए मौसम का डेटा उपलब्ध नहीं है।</div>`;
+            if (!data || !data.forecast || !data.forecast.forecastday) {
+                 weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">Weather data is not available for this location.</div>`;
                  return;
             }
             
-            const dailyForecasts = {};
-            data.list.forEach(item => {
-                const date = new Date(item.dt * 1000).toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                if (!dailyForecasts[date]) dailyForecasts[date] = [];
-                dailyForecasts[date].push(item);
-            });
-
-            const processedForecasts = Object.keys(dailyForecasts).map(date => {
-                const dayData = dailyForecasts[date];
-                const middayForecast = dayData.reduce((prev, curr) => (Math.abs(new Date(curr.dt * 1000).getHours() - 12) < Math.abs(new Date(prev.dt * 1000).getHours() - 12) ? curr : prev));
-                return middayForecast;
-            });
-            
-            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.city.name} - अगले 5 दिन</h3>
+            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.location.name} - 5-Day Forecast</h3>
                         <div class="custom-scrollbar overflow-x-auto pb-4">
                             <div class="flex space-x-4">`;
 
-            processedForecasts.forEach(day => {
-                const date = new Date(day.dt * 1000);
+            data.forecast.forecastday.forEach(day => {
+                const date = new Date(day.date_epoch * 1000);
                 const dayName = date.toLocaleString('hi-IN', { weekday: 'short' });
-                const fullDate = date.toLocaleString('hi-IN', { day: 'numeric', month: 'short' });
-                const iconUrl = `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+                const fullDate = date.toLocaleString('en-IN', { day: 'numeric', month: 'short' });
+                const iconUrl = `https:${day.day.condition.icon}`;
 
                 html += `
                     <div class="flex-shrink-0 w-36 text-center bg-blue-100 p-4 rounded-lg shadow">
                         <p class="font-semibold text-blue-800">${dayName}, ${fullDate}</p>
-                        <img src="${iconUrl}" alt="${day.weather[0].description}" class="mx-auto w-16 h-16">
-                        <p class="text-lg font-bold text-gray-800">${Math.round(day.main.temp)}°C</p>
-                        <p class="text-sm text-gray-600 capitalize">${day.weather[0].description}</p>
-                        <p class="text-xs text-gray-500 mt-2">💧 ${day.main.humidity}%</p>
+                        <img src="${iconUrl}" alt="${day.day.condition.text}" class="mx-auto w-16 h-16">
+                        <p class="text-lg font-bold text-gray-800">${Math.round(day.day.avgtemp_c)}°C</p>
+                        <p class="text-sm text-gray-600 capitalize">${day.day.condition.text}</p>
+                        <p class="text-xs text-gray-500 mt-2">💧 ${day.day.avghumidity}%</p>
                     </div>`;
             });
 
