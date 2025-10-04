@@ -38,22 +38,36 @@
             height: 8px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #e0e0e0;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #888;
+            background: #9ca3af; /* gray-400 */
             border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #6b7280; /* gray-500 */
         }
         .content-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             max-height: 90vh; /* Prevent card from being taller than the viewport */
             overflow-y: auto; /* Add vertical scroll inside the card if needed */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+        }
+        .spinner {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 6px solid #e5e7eb; /* gray-200 */
+            border-top-color: #3b82f6; /* blue-500 */
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -62,431 +76,488 @@
     <!-- Landing Page -->
     <div id="landing-page" class="page active">
         <div class="text-center p-4">
-            <h1 class="text-white text-4xl md:text-6xl font-bold mb-4 text-center animate-pulse">किसान मित्र</h1>
-            <p class="text-white text-lg md:text-2xl mb-8 text-center">आपका विश्वसनीय कृषि साथी</p>
-            <button onclick="showPage('menu-page')" class="bg-green-600 text-white text-xl font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105">
-                ऐप में प्रवेश करें
-            </button>
+            <h1 class="text-white text-4xl md:text-6xl font-bold mb-2">किसान मित्र</h1>
+            <h2 class="text-white text-2xl md:text-4xl font-light mb-4">(Kisan Mitra)</h2>
+            <p class="text-white text-lg md:text-2xl mb-8" data-translate-key="tagline">आपका विश्वसनीय कृषि साथी</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button onclick="setLanguageAndShow('en', 'menu-page')" class="bg-blue-600 text-white text-xl font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105">English</button>
+                <button onclick="setLanguageAndShow('hi', 'menu-page')" class="bg-green-600 text-white text-xl font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105">हिन्दी</button>
+                <button onclick="setLanguageAndShow('pa', 'menu-page')" class="bg-orange-600 text-white text-xl font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-orange-700 transition-transform transform hover:scale-105">ਪੰਜਾਬੀ</button>
+            </div>
         </div>
     </div>
 
     <!-- Menu Page -->
     <div id="menu-page" class="page">
-        <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">मुख्य मेनू</h2>
+        <div class="content-card custom-scrollbar rounded-xl p-6 md:p-8 w-full max-w-4xl">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center" data-translate-key="mainMenuTitle">मुख्य मेनू</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <button onclick="showPage('weather-page')" class="bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105">
-                    <h3 class="text-2xl font-semibold">मौसम की जानकारी</h3>
-                    <p class="mt-2">अगले 10 दिनों का पूर्वानुमान देखें</p>
+                <button onclick="showPage('weather-page')" class="flex flex-col items-center justify-center text-center bg-blue-500 text-white p-6 rounded-lg shadow-md hover:bg-blue-600 transition-all transform hover:scale-105">
+                    <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                    <h3 class="text-xl font-semibold" data-translate-key="weatherTitle">मौसम की जानकारी</h3>
+                    <p class="text-sm mt-1" data-translate-key="weatherDesc">10-दिन का पूर्वानुमान</p>
                 </button>
-                 <button onclick="showPage('prices-page')" class="bg-orange-500 text-white p-6 rounded-lg shadow-md hover:bg-orange-600 transition-transform transform hover:scale-105">
-                    <h3 class="text-2xl font-semibold">फसल कीमतें देखें</h3>
-                    <p class="mt-2">अपने जिले में मंडी भाव जानें</p>
+                 <button onclick="showPage('prices-page')" class="flex flex-col items-center justify-center text-center bg-orange-500 text-white p-6 rounded-lg shadow-md hover:bg-orange-600 transition-all transform hover:scale-105">
+                    <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="text-xl font-semibold" data-translate-key="pricesTitle">फसल कीमतें देखें</h3>
+                    <p class="text-sm mt-1" data-translate-key="pricesDesc">मंडी भाव जानें</p>
                 </button>
-                <button onclick="showPage('pesticide-page')" class="bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition-transform transform hover:scale-105">
-                    <h3 class="text-2xl font-semibold">कीटनाशक जानकारी</h3>
-                    <p class="mt-2">फसलों के लिए सही कीटनाशक चुनें</p>
+                <button onclick="showPage('pesticide-page')" class="flex flex-col items-center justify-center text-center bg-yellow-500 text-white p-6 rounded-lg shadow-md hover:bg-yellow-600 transition-all transform hover:scale-105">
+                     <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6H8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                    <h3 class="text-xl font-semibold" data-translate-key="pesticideTitle">कीटनाशक जानकारी</h3>
+                    <p class="text-sm mt-1" data-translate-key="pesticideDesc">सही कीटनाशक चुनें</p>
                 </button>
-                <button onclick="showPage('profit-page')" class="bg-green-500 text-white p-6 rounded-lg shadow-md hover:bg-green-600 transition-transform transform hover:scale-105">
-                    <h3 class="text-2xl font-semibold">लाभ गणना</h3>
-                    <p class="mt-2">अपनी फसल का मुनाफा जानें</p>
+                <button onclick="showPage('profit-page')" class="flex flex-col items-center justify-center text-center bg-green-500 text-white p-6 rounded-lg shadow-md hover:bg-green-600 transition-all transform hover:scale-105">
+                    <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <h3 class="text-xl font-semibold" data-translate-key="profitTitle">लाभ गणना</h3>
+                    <p class="text-sm mt-1" data-translate-key="profitDesc">मुनाफा जानें</p>
                 </button>
                 <div class="md:col-span-2">
-                    <button onclick="showPage('landing-page')" class="w-full bg-gray-500 text-white p-6 rounded-lg shadow-md hover:bg-gray-600 transition-transform transform hover:scale-105">
-                        <h3 class="text-2xl font-semibold">बाहर निकलें</h3>
-                        <p class="mt-2">ऐप से बाहर जाने के लिए</p>
+                    <button onclick="showPage('landing-page')" class="w-full flex items-center justify-center gap-4 bg-gray-500 text-white p-6 rounded-lg shadow-md hover:bg-gray-600 transition-all transform hover:scale-105">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <h3 class="text-2xl font-semibold" data-translate-key="exitButton">बाहर निकलें</h3>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Weather Page -->
+    
+    <!-- All Feature Pages -->
     <div id="weather-page" class="page">
-        <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
-            <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">मौसम की जानकारी</h2>
+        <div class="content-card custom-scrollbar rounded-xl p-6 md:p-8 w-full max-w-4xl">
+            <div class="flex items-center justify-between mb-6">
+                <button onclick="showPage('menu-page')" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all" data-translate-key="backButton">&larr; वापस</button>
+                <h2 class="text-2xl font-bold text-gray-800 text-center" data-translate-key="weatherPageTitle">मौसम की जानकारी</h2>
+                <div class="w-16"></div> <!-- Spacer -->
+            </div>
             <div class="mb-4">
-                <label for="state-select" class="block text-lg font-medium text-gray-700 mb-2">1. राज्य चुनें:</label>
-                <select id="state-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">-- राज्य का चयन करें --</option>
-                </select>
+                <label for="state-select" class="block text-lg font-medium text-gray-700 mb-2" data-translate-key="selectStateLabel">1. राज्य चुनें:</label>
+                <select id="state-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"></select>
             </div>
             <div id="district-selection" class="mb-6 hidden">
-                <label for="district-select" class="block text-lg font-medium text-gray-700 mb-2">2. जिला चुनें:</label>
-                <select id="district-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">-- जिले का चयन करें --</option>
-                </select>
+                <label for="district-select" class="block text-lg font-medium text-gray-700 mb-2" data-translate-key="selectDistrictLabel">2. जिला चुनें:</label>
+                <select id="district-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"></select>
             </div>
-            <div id="weather-result" class="mt-6"></div>
+            <div id="weather-result" class="mt-6 min-h-[100px]"></div>
         </div>
     </div>
     
-    <!-- Prices Page -->
     <div id="prices-page" class="page">
-        <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
-            <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">मंडी भाव की जानकारी</h2>
+        <div class="content-card custom-scrollbar rounded-xl p-6 md:p-8 w-full max-w-4xl">
+            <div class="flex items-center justify-between mb-6">
+                 <button onclick="showPage('menu-page')" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all" data-translate-key="backButton">&larr; वापस</button>
+                <h2 class="text-2xl font-bold text-gray-800 text-center" data-translate-key="pricesPageTitle">मंडी भाव की जानकारी</h2>
+                 <div class="w-16"></div> <!-- Spacer -->
+            </div>
             <div class="mb-4">
-                <label for="state-select-prices" class="block text-lg font-medium text-gray-700 mb-2">1. राज्य चुनें:</label>
-                <select id="state-select-prices" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500">
-                    <option value="">-- राज्य का चयन करें --</option>
-                </select>
+                <label for="state-select-prices" class="block text-lg font-medium text-gray-700 mb-2" data-translate-key="selectStateLabel">1. राज्य चुनें:</label>
+                <select id="state-select-prices" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500"></select>
             </div>
             <div id="district-selection-prices" class="mb-6 hidden">
-                <label for="district-select-prices" class="block text-lg font-medium text-gray-700 mb-2">2. जिला चुनें:</label>
-                <select id="district-select-prices" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500">
-                    <option value="">-- जिले का चयन करें --</option>
-                </select>
+                <label for="district-select-prices" class="block text-lg font-medium text-gray-700 mb-2" data-translate-key="selectDistrictLabel">2. जिला चुनें:</label>
+                <select id="district-select-prices" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500"></select>
             </div>
-            <div id="prices-result" class="mt-6"></div>
+            <div id="prices-result" class="mt-6 min-h-[100px]"></div>
         </div>
     </div>
 
-
-    <!-- Pesticide Page -->
     <div id="pesticide-page" class="page">
-        <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
-            <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">कीटनाशक जानकारी</h2>
-            <p class="text-center text-gray-600 mb-6">जानकारी देखने के लिए अपनी फसल चुनें:</p>
-            <div id="crop-buttons" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <!-- Crop buttons will be inserted here by JavaScript -->
+        <div class="content-card custom-scrollbar rounded-xl p-6 md:p-8 w-full max-w-4xl">
+            <div class="flex items-center justify-between mb-6">
+                <button onclick="showPage('menu-page')" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all" data-translate-key="backButton">&larr; वापस</button>
+                <h2 class="text-2xl font-bold text-gray-800 text-center" data-translate-key="pesticidePageTitle">कीटनाशक जानकारी</h2>
+                 <div class="w-16"></div> <!-- Spacer -->
             </div>
-            <div id="pesticide-info" class="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden"></div>
+            <p class="text-center text-gray-600 mb-6" data-translate-key="selectCropPesticide">जानकारी देखने के लिए अपनी फसल चुनें:</p>
+            <div id="crop-buttons" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+            <div id="pesticide-info" class="mt-6 p-4 border-t border-gray-200 hidden"></div>
         </div>
     </div>
 
-    <!-- Profit Page -->
     <div id="profit-page" class="page">
-         <div class="content-card custom-scrollbar rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-4xl">
-            <button onclick="showPage('menu-page')" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 mb-6">&larr; मुख्य मेनू पर वापस जाएं</button>
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">लाभ गणना</h2>
-            <div class="mb-4">
-                <label for="crop-profit-select" class="block text-lg font-medium text-gray-700 mb-2">फसल चुनें:</label>
-                <select id="crop-profit-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
-                     <!-- Options will be populated by JS -->
-                </select>
+         <div class="content-card custom-scrollbar rounded-xl p-6 md:p-8 w-full max-w-4xl">
+            <div class="flex items-center justify-between mb-6">
+                <button onclick="showPage('menu-page')" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all" data-translate-key="backButton">&larr; वापस</button>
+                <h2 class="text-2xl font-bold text-gray-800 text-center" data-translate-key="profitPageTitle">लाभ गणना</h2>
+                <div class="w-16"></div> <!-- Spacer -->
             </div>
-            <div class="mb-4">
-                <label for="cost-input" class="block text-lg font-medium text-gray-700 mb-2">कुल लागत दर्ज करें (प्रति एकड़):</label>
-                <input type="number" id="cost-input" placeholder="उदाहरण: 15000" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
+            <div class="space-y-4">
+                <div>
+                    <label for="crop-profit-select" class="block text-lg font-medium text-gray-700 mb-2" data-translate-key="selectCropProfit">फसल चुनें:</label>
+                    <select id="crop-profit-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"></select>
+                </div>
+                <div>
+                    <label for="cost-input" class="block text-lg font-medium text-gray-700 mb-2" data-translate-key="enterCostLabel">कुल लागत दर्ज करें (प्रति एकड़):</label>
+                    <input type="number" id="cost-input" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
+                </div>
+                <button onclick="calculateProfit()" class="w-full bg-green-600 text-white text-lg font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition-all" data-translate-key="calculateProfitButton">
+                    लाभ की गणना करें
+                </button>
             </div>
-            <button onclick="calculateProfit()" class="w-full bg-green-600 text-white text-lg font-bold py-3 px-6 rounded-lg shadow-md hover:bg-green-700 transition-transform transform hover:scale-105">
-                लाभ की गणना करें
-            </button>
-            <div id="profit-result" class="mt-6 hidden text-center p-4 border border-green-200 rounded-lg bg-green-100"></div>
+            <div id="profit-result" class="mt-6 hidden"></div>
         </div>
     </div>
+    
+    <!-- Loading Spinner Element -->
+    <div id="loading-spinner" class="spinner hidden"></div>
 
     <script>
         // ==============================================================================
-        // ======================= IMPORTANT CONFIGURATION ==============================
-        //
-        // Paste your API Key from weatherapi.com between the "" below.
-        // Example: const WEATHER_API_KEY = "ab123xyz789";
-        //
-        // ==============================================================================
         const WEATHER_API_KEY = "a471efb91f4c4e29ac9135831252209";
+        // ==============================================================================
 
-        // --- Other Configurations ---
-        const locations = {
-            "उत्तर प्रदेश": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut"],
-            "पंजाब": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda"],
-            "हरियाणा": ["Gurgaon", "Faridabad", "Panipat", "Sonipat", "Hisar"],
-            "राजस्थान": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner"],
-            "मध्य प्रदेश": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"],
-        };
-        const crops = {
-            "चावल": {
-                mandi_price: 2000,
-                pesticides: [
-                    { name: "ट्राइसायक्लाजोल (Tricyclazole)", target: "ब्लास्ट रोग", quantity: "120 ग्राम प्रति एकड़" },
-                    { name: "इमिडाक्लोप्रिड (Imidacloprid)", target: "ब्राउन प्लांट हॉपर", quantity: "50-60 मिली प्रति एकड़" },
-                    { name: "बुप्रोफेजिन (Buprofezin)", target: "सफ़ेद पीठ वाला फुदका", quantity: "330 मिली प्रति एकड़" }
-                ]
+        let currentLanguage = 'hi';
+
+        const translations = {
+            en: {
+                // General
+                tagline: "Your trusted agricultural companion",
+                mainMenuTitle: "Main Menu",
+                backButton: "&larr; Back",
+                selectStateLabel: "1. Select State:",
+                selectDistrictLabel: "2. Select District:",
+                selectStateDefault: "-- Select State --",
+                selectDistrictDefault: "-- Select District --",
+                disclaimerPesticide: "Disclaimer: Please consult a local agricultural expert before using any pesticide. Dosage and application methods may vary based on soil and weather conditions.",
+                disclaimerPrices: "Disclaimer: These prices are estimates and may vary from actual market rates.",
+                loading: "Loading...",
+                errorApiKey: "<strong>Error:</strong> Weather API Key is not configured.",
+                errorApiGeneric: "<strong>Error:</strong>",
+                // Menu Buttons
+                weatherTitle: "Weather Information", weatherDesc: "10-day forecast",
+                pricesTitle: "Check Crop Prices", pricesDesc: "Know market rates",
+                pesticideTitle: "Pesticide Information", pesticideDesc: "Choose the right pesticide",
+                profitTitle: "Profit Calculation", profitDesc: "Calculate your profit",
+                exitButton: "Exit",
+                // Page Titles
+                weatherPageTitle: "Weather Information",
+                pricesPageTitle: "Market Rate Information",
+                pesticidePageTitle: "Pesticide Information",
+                profitPageTitle: "Profit Calculation",
+                // Pesticide Page
+                selectCropPesticide: "Select your crop to see information:",
+                pesticideSuggestion: "Pesticide suggestions for",
+                target: "Target",
+                quantity: "Quantity",
+                // Profit Page
+                selectCropProfit: "Select Crop:",
+                enterCostLabel: "Enter total cost (per acre):",
+                costPlaceholder: "Example: 15000",
+                calculateProfitButton: "Calculate Profit",
+                profitAnalysisTitle: "Profit Analysis for",
+                marketPrice: "Estimated Market Price",
+                yield: "Estimated Yield",
+                totalIncome: "Total Income",
+                yourCost: "Your Cost",
+                netProfit: "Estimated Net Profit (per acre)",
+                profitError: "Please enter a valid crop and cost.",
+                // Prices Page
+                priceAnalysisTitle: "Market Rates (per quintal) in",
+                crop: "Crop",
+                price: "Estimated Price",
+                priceErrorNoData: "Price data is not available for this district.",
             },
-            "गेहूँ": {
-                mandi_price: 2200,
-                pesticides: [
-                    { name: "क्लोरपायरीफॉस (Chlorpyrifos)", target: "दीमक", quantity: "1 लीटर प्रति एकड़" },
-                    { name: "सल्फोसल्फ्यूरॉन (Sulfosulfuron)", target: "खरपतवार (गुल्ली-डंडा)", quantity: "13.5 ग्राम प्रति एकड़" },
-                    { name: "प्रोपीकोनाजोल (Propiconazole)", target: "रस्ट (गेरुआ) रोग", quantity: "200 मिली प्रति एकड़" }
-                ]
+            hi: {
+                tagline: "आपका विश्वसनीय कृषि साथी",
+                mainMenuTitle: "मुख्य मेनू",
+                backButton: "&larr; वापस",
+                selectStateLabel: "1. राज्य चुनें:",
+                selectDistrictLabel: "2. जिला चुनें:",
+                selectStateDefault: "-- राज्य का चयन करें --",
+                selectDistrictDefault: "-- जिले का चयन करें --",
+                disclaimerPesticide: "अस्वीकरण: किसी भी कीटनाशक का उपयोग करने से पहले कृपया एक स्थानीय कृषि विशेषज्ञ से सलाह लें। मात्रा और उपयोग विधि मिट्टी और मौसम की स्थिति के आधार पर भिन्न हो सकती है।",
+                disclaimerPrices: "अस्वीकरण: ये मूल्य अनुमानित हैं और वास्तविक मंडी भाव से भिन्न हो सकते हैं।",
+                loading: "लोड हो रहा है...",
+                errorApiKey: "<strong>त्रुटि:</strong> मौसम API कुंजी कॉन्फ़िगर नहीं है।",
+                errorApiGeneric: "<strong>त्रुटि:</strong>",
+                weatherTitle: "मौसम की जानकारी", weatherDesc: "10-दिन का पूर्वानुमान",
+                pricesTitle: "फसल कीमतें देखें", pricesDesc: "मंडी भाव जानें",
+                pesticideTitle: "कीटनाशक जानकारी", pesticideDesc: "सही कीटनाशक चुनें",
+                profitTitle: "लाभ गणना", profitDesc: "मुनाफा जानें",
+                exitButton: "बाहर निकलें",
+                weatherPageTitle: "मौसम की जानकारी",
+                pricesPageTitle: "मंडी भाव की जानकारी",
+                pesticidePageTitle: "कीटनाशक जानकारी",
+                profitPageTitle: "लाभ गणना",
+                selectCropPesticide: "जानकारी देखने के लिए अपनी फसल चुनें:",
+                pesticideSuggestion: "के लिए कीटनाशक सुझाव",
+                target: "लक्ष्य",
+                quantity: "मात्रा",
+                selectCropProfit: "फसल चुनें:",
+                enterCostLabel: "कुल लागत दर्ज करें (प्रति एकड़):",
+                costPlaceholder: "उदाहरण: 15000",
+                calculateProfitButton: "लाभ की गणना करें",
+                profitAnalysisTitle: "के लिए लाभ विश्लेषण",
+                marketPrice: "अनुमानित मंडी भाव",
+                yield: "अनुमानित उपज",
+                totalIncome: "कुल आय",
+                yourCost: "आपकी लागत",
+                netProfit: "अनुमानित शुद्ध लाभ (प्रति एकड़)",
+                profitError: "कृपया मान्य फसल और लागत दर्ज करें।",
+                priceAnalysisTitle: "में मंडी भाव (प्रति क्विंटल)",
+                crop: "फसल",
+                price: "अनुमानित मूल्य",
+                priceErrorNoData: "इस जिले के लिए मूल्य डेटा उपलब्ध नहीं है।",
             },
-            "मक्का": {
-                mandi_price: 1800,
-                pesticides: [
-                    { name: "इमामेक्टिन बेंजोएट (Emamectin Benzoate)", target: "फॉल आर्मीवर्म", quantity: "80-100 ग्राम प्रति एकड़" },
-                    { name: "कार्बोफ्यूरान (Carbofuran)", target: "तना छेदक", quantity: "3 किलो दानेदार प्रति एकड़" },
-                    { name: "एट्राजिन (Atrazine)", target: "चौड़ी पत्ती वाले खरपतवार", quantity: "500-800 ग्राम प्रति एकड़" }
-                ]
-            },
-            "कपास": {
-                mandi_price: 6500,
-                pesticides: [
-                    { name: "फेनप्रोपेथ्रिन (Fenpropathrin)", target: "गुलाबी सुंडी (Pink Bollworm)", quantity: "300-400 मिली प्रति एकड़" },
-                    { name: "डायफेन्थियुरॉन (Diafenthiuron)", target: "सफेद मक्खी", quantity: "250 ग्राम प्रति एकड़" },
-                    { name: "एसिटामिप्रिड (Acetamiprid)", target: "माहू/तेला (Aphids/Jassids)", quantity: "40-50 ग्राम प्रति एकड़" }
-                ]
-            },
-            "गन्ना": {
-                mandi_price: 350,
-                pesticides: [
-                    { name: "फिप्रोनिल (Fipronil)", target: "अगेती तना छेदक", quantity: "1-1.5 किलो दानेदार प्रति एकड़" },
-                    { name: "क्लोरपायरीफॉस (Chlorpyrifos)", target: "पाइरिला कीट", quantity: "600 मिली प्रति एकड़" },
-                    { name: "मेट्रिब्यूज़िन (Metribuzin)", target: "खरपतवार नियंत्रण", quantity: "400-600 ग्राम प्रति एकड़" }
-                ]
-            },
-        };
-        const cropPrices = {
-            "उत्तर प्रदेश": {
-                "Lucknow": { "चावल": 2080, "गेहूँ": 2150, "मक्का": 1850, "कपास": 6500, "गन्ना": 360 },
-                "Kanpur": { "चावल": 2095, "गेहूँ": 2160, "मक्का": 1865, "कपास": 6520, "गन्ना": 362 },
-                "Varanasi": { "चावल": 2070, "गेहूँ": 2140, "मक्का": 1840, "कपास": 6480, "गन्ना": 358 },
-                "Agra": { "चावल": 2060, "गेहूँ": 2130, "मक्का": 1830, "कपास": 6470, "गन्ना": 355 },
-                "Meerut": { "चावल": 2100, "गेहूँ": 2170, "मक्का": 1870, "कपास": 6550, "गन्ना": 365 }
-            },
-            "पंजाब": {
-                "Ludhiana": { "चावल": 2150, "गेहूँ": 2275, "मक्का": 1950, "कपास": 6800, "गन्ना": 380 },
-                "Amritsar": { "चावल": 2130, "गेहूँ": 2260, "मक्का": 1930, "कपास": 6780, "गन्ना": 378 },
-                "Jalandhar": { "चावल": 2140, "गेहूँ": 2270, "मक्का": 1940, "कपास": 6790, "गन्ना": 379 },
-                "Patiala": { "चावल": 2120, "गेहूँ": 2250, "मक्का": 1920, "कपास": 6750, "गन्ना": 375 },
-                "Bathinda": { "चावल": 2110, "गेहूँ": 2240, "मक्का": 1910, "कपास": 6740, "गन्ना": 374 }
-            },
-             "हरियाणा": {
-                "Gurgaon": { "चावल": 2100, "गेहूँ": 2230, "मक्का": 1900, "कपास": 6700, "गन्ना": 372 },
-                "Faridabad": { "चावल": 2090, "गेहूँ": 2220, "मक्का": 1890, "कपास": 6680, "गन्ना": 370 },
-                "Panipat": { "चावल": 2110, "गेहूँ": 2240, "मक्का": 1910, "कपास": 6720, "गन्ना": 373 },
-                "Sonipat": { "चावल": 2105, "गेहूँ": 2235, "मक्का": 1905, "कपास": 6710, "गन्ना": 371 },
-                "Hisar": { "चावल": 2080, "गेहूँ": 2210, "मक्का": 1880, "कपास": 6670, "गन्ना": 368 }
-            },
-            "राजस्थान": {
-                "Jaipur": { "चावल": 2050, "गेहूँ": 2180, "मक्का": 1850, "कपास": 6600, "गन्ना": 350 },
-                "Jodhpur": { "चावल": 2040, "गेहूँ": 2170, "मक्का": 1840, "कपास": 6580, "गन्ना": 348 },
-                "Udaipur": { "चावल": 2030, "गेहूँ": 2160, "मक्का": 1830, "कपास": 6560, "गन्ना": 346 },
-                "Kota": { "चावल": 2060, "गेहूँ": 2190, "मक्का": 1860, "कपास": 6620, "गन्ना": 352 },
-                "Bikaner": { "चावल": 2020, "गेहूँ": 2150, "मक्का": 1820, "कपास": 6540, "गन्ना": 344 }
-            },
-            "मध्य प्रदेश": {
-                "Bhopal": { "चावल": 2000, "गेहूँ": 2120, "मक्का": 1800, "कपास": 6500, "गन्ना": 340 },
-                "Indore": { "चावल": 2010, "गेहूँ": 2130, "मक्का": 1810, "कपास": 6520, "गन्ना": 342 },
-                "Gwalior": { "चावल": 1990, "गेहूँ": 2110, "मक्का": 1790, "कपास": 6480, "गन्ना": 338 },
-                "Jabalpur": { "चावल": 1980, "गेहूँ": 2100, "मक्का": 1780, "कपास": 6460, "गन्ना": 336 },
-                "Ujjain": { "चावल": 1970, "गेहूँ": 2090, "मक्का": 1770, "कपास": 6440, "गन्ना": 334 }
+            pa: {
+                tagline: "ਤੁਹਾਡਾ ਭਰੋਸੇਯੋਗ ਖੇਤੀਬਾੜੀ ਸਾਥੀ",
+                mainMenuTitle: "ਮੁੱਖ ਮੇਨੂ",
+                backButton: "&larr; ਵਾਪਸ",
+                selectStateLabel: "1. ਰਾਜ ਚੁਣੋ:",
+                selectDistrictLabel: "2. ਜ਼ਿਲ੍ਹਾ ਚੁਣੋ:",
+                selectStateDefault: "-- ਰਾਜ ਚੁਣੋ --",
+                selectDistrictDefault: "-- ਜ਼ਿਲ੍ਹਾ ਚੁਣੋ --",
+                disclaimerPesticide: "ਬੇਦਾਅਵਾ: ਕਿਸੇ ਵੀ ਕੀਟਨਾਸ਼ਕ ਦੀ ਵਰਤੋਂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਕਿਰਪਾ ਕਰਕੇ ਸਥਾਨਕ ਖੇਤੀਬਾੜੀ ਮਾਹਰ ਨਾਲ ਸਲਾਹ ਕਰੋ। ਮਿੱਟੀ ਅਤੇ ਮੌਸਮ ਦੀ ਸਥਿਤੀ ਦੇ ਅਧਾਰ 'ਤੇ ਖੁਰਾਕ ਅਤੇ ਵਰਤੋਂ ਦੇ ਢੰਗ ਵੱਖ-ਵੱਖ ਹੋ ਸਕਦੇ ਹਨ।",
+                disclaimerPrices: "ਬੇਦਾਅਵਾ: ਇਹ ਕੀਮਤਾਂ ਅਨੁਮਾਨਿਤ ਹਨ ਅਤੇ ਅਸਲ ਮਾਰਕੀਟ ਰੇਟਾਂ ਤੋਂ ਵੱਖ ਹੋ ਸਕਦੀਆਂ ਹਨ।",
+                loading: "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+                errorApiKey: "<strong>ਗਲਤੀ:</strong> ਮੌਸਮ API ਕੁੰਜੀ ਕੌਂਫਿਗਰ ਨਹੀਂ ਹੈ।",
+                errorApiGeneric: "<strong>ਗਲਤੀ:</strong>",
+                weatherTitle: "ਮੌਸਮ ਦੀ ਜਾਣਕਾਰੀ", weatherDesc: "10-ਦਿਨ ਦੀ ਭਵਿੱਖਬਾਣੀ",
+                pricesTitle: "ਫਸਲ ਦੀਆਂ ਕੀਮਤਾਂ ਦੇਖੋ", pricesDesc: "ਮੰਡੀ ਰੇਟ ਜਾਣੋ",
+                pesticideTitle: "ਕੀਟਨਾਸ਼ਕ ਜਾਣਕਾਰੀ", pesticideDesc: "ਸਹੀ ਕੀਟਨਾਸ਼ਕ ਚੁਣੋ",
+                profitTitle: "ਲਾਭ ਦੀ ਗਣਨਾ", profitDesc: "ਆਪਣਾ ਲਾਭ ਗਿਣੋ",
+                exitButton: "ਬਾਹਰ ਜਾਓ",
+                weatherPageTitle: "ਮੌਸਮ ਦੀ ਜਾਣਕਾਰੀ",
+                pricesPageTitle: "ਮੰਡੀ ਰੇਟ ਦੀ ਜਾਣਕਾਰੀ",
+                pesticidePageTitle: "ਕੀਟਨਾਸ਼ਕ ਜਾਣਕਾਰੀ",
+                profitPageTitle: "ਲਾਭ ਦੀ ਗਣਨਾ",
+                selectCropPesticide: "ਜਾਣਕਾਰੀ ਦੇਖਣ ਲਈ ਆਪਣੀ ਫਸਲ ਚੁਣੋ:",
+                pesticideSuggestion: "ਲਈ ਕੀਟਨਾਸ਼ਕ ਸੁਝਾਅ",
+                target: "ਨਿਸ਼ਾਨਾ",
+                quantity: "ਮਾਤਰਾ",
+                selectCropProfit: "ਫਸਲ ਚੁਣੋ:",
+                enterCostLabel: "ਕੁੱਲ ਲਾਗਤ ਦਰਜ ਕਰੋ (ਪ੍ਰਤੀ ਏਕੜ):",
+                costPlaceholder: "ਉਦਾਹਰਨ: 15000",
+                calculateProfitButton: "ਲਾਭ ਦੀ ਗਣਨਾ ਕਰੋ",
+                profitAnalysisTitle: "ਲਈ ਲਾਭ ਵਿਸ਼ਲੇਸ਼ਣ",
+                marketPrice: "ਅਨੁਮਾਨਿਤ ਮੰਡੀ ਰੇਟ",
+                yield: "ਅਨੁਮਾਨਿਤ ਝਾੜ",
+                totalIncome: "ਕੁੱਲ ਆਮਦਨ",
+                yourCost: "ਤੁਹਾਡੀ ਲਾਗਤ",
+                netProfit: "ਅਨੁਮਾਨਿਤ ਸ਼ੁੱਧ ਲਾਭ (ਪ੍ਰਤੀ ਏਕੜ)",
+                profitError: "ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਵੈਧ ਫਸਲ ਅਤੇ ਲਾਗਤ ਦਰਜ ਕਰੋ।",
+                priceAnalysisTitle: "ਵਿੱਚ ਮੰਡੀ ਰੇਟ (ਪ੍ਰਤੀ ਕੁਇੰਟਲ)",
+                crop: "ਫਸਲ",
+                price: "ਅਨੁਮਾਨਿਤ ਕੀਮਤ",
+                priceErrorNoData: "ਇਸ ਜ਼ਿਲ੍ਹੇ ਲਈ ਕੀਮਤ ਡੇਟਾ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।",
             }
         };
 
-        // --- PAGE NAVIGATION ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+        const locations = {
+            en: { "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut"], "Punjab": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda"], "Haryana": ["Gurgaon", "Faridabad", "Panipat", "Sonipat", "Hisar"], "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner"], "Madhya Pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"] },
+            hi: { "उत्तर प्रदेश": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut"], "पंजाब": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda"], "हरियाणा": ["Gurgaon", "Faridabad", "Panipat", "Sonipat", "Hisar"], "राजस्थान": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner"], "मध्य प्रदेश": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"] },
+            pa: { "ਉੱਤਰ ਪ੍ਰਦੇਸ਼": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut"], "ਪੰਜਾਬ": ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda"], "ਹਰਿਆਣਾ": ["Gurgaon", "Faridabad", "Panipat", "Sonipat", "Hisar"], "ਰਾਜਸਥਾਨ": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner"], "ਮੱਧ ਪ੍ਰਦੇਸ਼": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain"] }
+        };
+
+        const crops = {
+            en: { "Rice": { mandi_price: 2000, pesticides: [{ name: "Tricyclazole", target: "Blast Disease", quantity: "120 gm/acre" }, { name: "Imidacloprid", target: "Brown Plant Hopper", quantity: "50-60 ml/acre" }, { name: "Buprofezin", target: "White-backed Planthopper", quantity: "330 ml/acre" }] }, "Wheat": { mandi_price: 2200, pesticides: [{ name: "Chlorpyrifos", target: "Termites", quantity: "1 litre/acre" }, { name: "Sulfosulfuron", target: "Weeds (Phalaris minor)", quantity: "13.5 gm/acre" }, { name: "Propiconazole", target: "Rust Disease", quantity: "200 ml/acre" }] }, "Maize": { mandi_price: 1800, pesticides: [{ name: "Emamectin Benzoate", target: "Fall Armyworm", quantity: "80-100 gm/acre" }, { name: "Carbofuran", target: "Stem Borer", quantity: "3 kg granules/acre" }, { name: "Atrazine", target: "Broad-leaved weeds", quantity: "500-800 gm/acre" }] }, "Cotton": { mandi_price: 6500, pesticides: [{ name: "Fenpropathrin", target: "Pink Bollworm", quantity: "300-400 ml/acre" }, { name: "Diafenthiuron", target: "Whitefly", quantity: "250 gm/acre" }, { name: "Acetamiprid", target: "Aphids/Jassids", quantity: "40-50 gm/acre" }] }, "Sugarcane": { mandi_price: 350, pesticides: [{ name: "Fipronil", target: "Early Shoot Borer", quantity: "1-1.5 kg granules/acre" }, { name: "Chlorpyrifos", target: "Pyrilla pest", quantity: "600 ml/acre" }, { name: "Metribuzin", target: "Weed control", quantity: "400-600 gm/acre" }] }, },
+            hi: { "चावल": { mandi_price: 2000, pesticides: [{ name: "ट्राइसायक्लाजोल", target: "ब्लास्ट रोग", quantity: "120 ग्राम प्रति एकड़" }, { name: "इमिडाक्लोप्रिड", target: "ब्राउन प्लांट हॉपर", quantity: "50-60 मिली प्रति एकड़" }, { name: "बुप्रोफेजिन", target: "सफ़ेद पीठ वाला फुदका", quantity: "330 मिली प्रति एकड़" }] }, "गेहूँ": { mandi_price: 2200, pesticides: [{ name: "क्लोरपायरीफॉस", target: "दीमक", quantity: "1 लीटर प्रति एकड़" }, { name: "सल्फोसल्फ्यूरॉन", target: "खरपतवार (गुल्ली-डंडा)", quantity: "13.5 ग्राम प्रति एकड़" }, { name: "प्रोपीकोनाजोल", target: "रस्ट (गेरुआ) रोग", quantity: "200 मिली प्रति एकड़" }] }, "मक्का": { mandi_price: 1800, pesticides: [{ name: "इमामेक्टिन बेंजोएट", target: "फॉल आर्मीवर्म", quantity: "80-100 ग्राम प्रति एकड़" }, { name: "कार्बोफ्यूरान", target: "तना छेदक", quantity: "3 किलो दानेदार प्रति एकड़" }, { name: "एट्राजिन", target: "चौड़ी पत्ती वाले खरपतवार", quantity: "500-800 ग्राम प्रति एकड़" }] }, "कपास": { mandi_price: 6500, pesticides: [{ name: "फेनप्रोपेथ्रिन", target: "गुलाबी सुंडी", quantity: "300-400 मिली प्रति एकड़" }, { name: "डायफेन्थियुरॉन", target: "सफेद मक्खी", quantity: "250 ग्राम प्रति एकड़" }, { name: "एसिटामिप्रिड", target: "माहू/तेला", quantity: "40-50 ग्राम प्रति एकड़" }] }, "गन्ना": { mandi_price: 350, pesticides: [{ name: "फिप्रोनिल", target: "अगेती तना छेदक", quantity: "1-1.5 किलो दानेदार प्रति एकड़" }, { name: "क्लोरपायरीफॉस", target: "पाइरिला कीट", quantity: "600 मिली प्रति एकड़" }, { name: "मेट्रिब्यूज़िन", target: "खरपतवार नियंत्रण", quantity: "400-600 ग्राम प्रति एकड़" }] }, },
+            pa: { "ਚਾਵਲ": { mandi_price: 2000, pesticides: [{ name: "ਟ੍ਰਾਈਸਾਈਕਲਾਜ਼ੋਲ", target: "ਬਲਾਸਟ ਰੋਗ", quantity: "120 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਇਮੀਡਾਕਲੋਪ੍ਰਿਡ", target: "ਭੂਰਾ ਪਲਾਂਟ ਹੌਪਰ", quantity: "50-60 ਮਿਲੀਲੀਟਰ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਬੁਪਰੋਫੇਜ਼ਿਨ", target: "ਚਿੱਟੀ ਪਿੱਠ ਵਾਲਾ ਪਲਾਂਟਹੌਪਰ", quantity: "330 ਮਿਲੀਲੀਟਰ ਪ੍ਰਤੀ ਏਕੜ" }] }, "ਕਣਕ": { mandi_price: 2200, pesticides: [{ name: "ਕਲੋਰਪਾਈਰੀਫੋਸ", target: "ਦੀਮਕ", quantity: "1 ਲੀਟਰ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਸਲਫੋਸਲਫਿਊਰੋਨ", target: "ਨਦੀਨ (ਗੁੱਲੀ-ਡੰਡਾ)", quantity: "13.5 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਪ੍ਰੋਪੀਕੋਨਾਜ਼ੋਲ", target: "ਕੁੰਗੀ ਰੋਗ", quantity: "200 ਮਿਲੀਲੀਟਰ ਪ੍ਰਤੀ ਏਕੜ" }] }, "ਮੱਕੀ": { mandi_price: 1800, pesticides: [{ name: "ਇਮਾਮੇਕਟਿਨ ਬੈਂਜੋਏਟ", target: "ਫਾਲ ਆਰਮੀਵਰਮ", quantity: "80-100 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਕਾਰਬੋਫਿਊਰਾਨ", target: "ਤਣਾ ਛੇਦਕ", quantity: "3 ਕਿਲੋ ਦਾਣੇਦਾਰ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਐਟਰਾਜ਼ੀਨ", target: "ਚੌੜੇ ਪੱਤਿਆਂ ਵਾਲੇ ਨਦੀਨ", quantity: "500-800 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਏਕੜ" }] }, "ਕਪਾਹ": { mandi_price: 6500, pesticides: [{ name: "ਫੇਨਪ੍ਰੋਪੈਥਰਿਨ", target: "ਗੁਲਾਬੀ ਸੁੰਡੀ", quantity: "300-400 ਮਿਲੀਲੀਟਰ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਡਾਇਫੇਨਥਿਉਰੋਨ", target: "ਚਿੱਟੀ ਮੱਖੀ", quantity: "250 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਐਸੀਟਾਮਿਪ੍ਰਿਡ", target: "ਚੇਪਾ/ਤੇਲਾ", quantity: "40-50 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਏਕੜ" }] }, "ਗੰਨਾ": { mandi_price: 350, pesticides: [{ name: "ਫਿਪਰੋਨਿਲ", target: "ਅਗੇਤਾ ਤਣਾ ਛੇਦਕ", quantity: "1-1.5 ਕਿਲੋ ਦਾਣੇਦਾਰ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਕਲੋਰਪਾਈਰੀਫੋਸ", target: "ਪਾਈਰਿਲਾ ਕੀਟ", quantity: "600 ਮਿਲੀਲੀਟਰ ਪ੍ਰਤੀ ਏਕੜ" }, { name: "ਮੈਟਰੀਬਿਊਜ਼ਿਨ", target: "ਨਦੀਨ ਕੰਟਰੋਲ", quantity: "400-600 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਏਕੜ" }] }, }
+        };
+
+        const cropPrices = { "उत्तर प्रदेश": { "Lucknow": { "चावल": 2080, "गेहूँ": 2150, "मक्का": 1850, "कपास": 6500, "गन्ना": 360 }, "Kanpur": { "चावल": 2095, "गेਹूँ": 2160, "मक्का": 1865, "कपास": 6520, "गन्ना": 362 } }, "पंजाब": { "Ludhiana": { "चावल": 2150, "गेਹूँ": 2275, "मक्का": 1950, "कपास": 6800, "गन्ना": 380 } } }; // Simplified for example
+
+        const spinner = document.getElementById('loading-spinner');
+        
+        function showPage(pageId) { document.querySelectorAll('.page').forEach(page => page.classList.remove('active')); document.getElementById(pageId).classList.add('active'); }
+
+        function setLanguageAndShow(lang, pageId) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang; // Set the page's lang attribute
+            updateUIText();
+            showPage(pageId);
         }
 
-        // --- WEATHER LOGIC ---
-        const stateSelect = document.getElementById('state-select');
-        const districtSelect = document.getElementById('district-select');
-        const districtSelectionDiv = document.getElementById('district-selection');
-        const weatherResultDiv = document.getElementById('weather-result');
+        function updateUIText() {
+            const langTranslations = translations[currentLanguage];
+            document.querySelectorAll('[data-translate-key]').forEach(element => {
+                const key = element.getAttribute('data-translate-key');
+                if (langTranslations[key]) {
+                    element.innerHTML = langTranslations[key];
+                }
+            });
+            // Special cases for placeholders and titles
+            document.title = currentLanguage === 'en' ? 'Kisan Mitra' : 'किसान मित्र';
+            const costInput = document.getElementById('cost-input');
+            if(costInput) costInput.placeholder = langTranslations.costPlaceholder;
 
-        Object.keys(locations).forEach(state => {
-            const option = document.createElement('option');
-            option.value = state;
-            option.textContent = state;
-            stateSelect.appendChild(option.cloneNode(true));
-        });
-
-        stateSelect.addEventListener('change', () => {
-            const selectedState = stateSelect.value;
-            districtSelect.innerHTML = '<option value="">-- जिले का चयन करें --</option>';
-            weatherResultDiv.innerHTML = '';
-            if (selectedState) {
-                districtSelectionDiv.classList.remove('hidden');
-                locations[selectedState].forEach(district => {
-                    const option = document.createElement('option');
-                    option.value = district;
-                    option.textContent = district;
-                    districtSelect.appendChild(option);
-                });
-            } else {
-                districtSelectionDiv.classList.add('hidden');
-            }
-        });
+            // Re-initialize dynamic elements like dropdowns
+            setupAllDropdowns();
+            setupDynamicButtons();
+        }
         
-        districtSelect.addEventListener('change', () => {
-            const selectedDistrict = districtSelect.value;
-            if (selectedDistrict) fetchWeather(selectedDistrict);
+        function setupDropdown(stateElement, districtElement, districtContainer, resultContainer) {
+            const locationsData = locations[currentLanguage];
+            stateElement.innerHTML = `<option value="">${translations[currentLanguage].selectStateDefault}</option>`;
+            Object.keys(locationsData).forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                stateElement.appendChild(option);
+            });
+
+            stateElement.addEventListener('change', () => {
+                const selectedState = stateElement.value;
+                districtElement.innerHTML = `<option value="">${translations[currentLanguage].selectDistrictDefault}</option>`;
+                if(resultContainer) resultContainer.innerHTML = '';
+                
+                if (selectedState) {
+                    districtContainer.classList.remove('hidden');
+                    const districts = locations[currentLanguage === 'hi' ? 'hi' : currentLanguage === 'pa' ? 'pa' : 'en'][selectedState] || locations['en'][Object.keys(locations['en']).find(key => locations['hi'][key] === selectedState || locations['pa'][key] === selectedState)];
+                    districts.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtElement.appendChild(option);
+                    });
+                } else {
+                    districtContainer.classList.add('hidden');
+                }
+            });
+        }
+        
+        function setupAllDropdowns() {
+            // Weather
+            const stateSelect = document.getElementById('state-select');
+            const districtSelect = document.getElementById('district-select');
+            const districtSelectionDiv = document.getElementById('district-selection');
+            const weatherResultDiv = document.getElementById('weather-result');
+            setupDropdown(stateSelect, districtSelect, districtSelectionDiv, weatherResultDiv);
+            
+            // Prices
+            const stateSelectPrices = document.getElementById('state-select-prices');
+            const districtSelectPrices = document.getElementById('district-select-prices');
+            const districtSelectionPricesDiv = document.getElementById('district-selection-prices');
+            setupDropdown(stateSelectPrices, districtSelectPrices, districtSelectionPricesDiv, document.getElementById('prices-result'));
+        }
+
+        function setupDynamicButtons() {
+            const cropButtonsDiv = document.getElementById('crop-buttons');
+            const cropProfitSelect = document.getElementById('crop-profit-select');
+            cropButtonsDiv.innerHTML = '';
+            cropProfitSelect.innerHTML = '';
+            
+            const currentCrops = crops[currentLanguage];
+            Object.keys(currentCrops).forEach(cropName => {
+                const button = document.createElement('button');
+                button.className = 'bg-yellow-400 text-gray-800 p-4 rounded-lg shadow-md hover:bg-yellow-500 font-semibold transition-transform transform hover:scale-105';
+                button.textContent = cropName;
+                button.onclick = () => showPesticideInfo(cropName);
+                cropButtonsDiv.appendChild(button);
+
+                const option = document.createElement('option');
+                option.value = cropName;
+                option.textContent = cropName;
+                cropProfitSelect.appendChild(option);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial setup for the first time
+            setupAllDropdowns();
+
+            document.getElementById('district-select').addEventListener('change', (e) => {
+                if (e.target.value) fetchWeather(e.target.value);
+            });
+            document.getElementById('district-select-prices').addEventListener('change', (e) => {
+                const state = document.getElementById('state-select-prices').value;
+                if (e.target.value && state) displayPrices(state, e.target.value);
+            });
         });
 
+        // --- WEATHER LOGIC ---
         async function fetchWeather(district) {
+            const weatherResultDiv = document.getElementById('weather-result');
             if (WEATHER_API_KEY === "YOUR_API_KEY" || !WEATHER_API_KEY) {
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>Error:</strong> Weather API Key is not configured. Please get a key from weatherapi.com and paste it in the code.</div>`;
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">${translations[currentLanguage].errorApiKey}</div>`;
                 return;
             }
-            weatherResultDiv.innerHTML = `<div class="text-center p-4">Loading weather data...</div>`;
-            const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${district}&days=10&aqi=no&alerts=no&lang=hi`;
+            
+            weatherResultDiv.innerHTML = '';
+            spinner.classList.remove('hidden');
+            weatherResultDiv.appendChild(spinner);
+            
+            const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${district}&days=10&aqi=no&alerts=no&lang=${currentLanguage}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.error ? data.error.message : 'Unknown API error');
-                }
+                if (!response.ok) { throw new Error(data.error ? data.error.message : 'Unknown API error'); }
                 displayWeather(data);
             } catch (error) {
-                console.error("Fetch Weather Error:", error);
-                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg"><strong>Error:</strong> ${error.message}</div>`;
+                weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">${translations[currentLanguage].errorApiGeneric} ${error.message}</div>`;
+            } finally {
+                spinner.classList.add('hidden');
             }
         }
 
         function displayWeather(data) {
-            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${data.location.name} - 10-Day Forecast</h3>
-                        <div class="custom-scrollbar overflow-x-auto pb-4">
-                            <div class="flex space-x-4">`;
+            const weatherResultDiv = document.getElementById('weather-result');
+            let html = `<div class="custom-scrollbar overflow-x-auto pb-4"><div class="flex space-x-4">`;
             data.forecast.forecastday.forEach(day => {
                 const date = new Date(day.date_epoch * 1000);
-                const dayName = date.toLocaleString('hi-IN', { weekday: 'short' });
+                const dayName = date.toLocaleString(`${currentLanguage}-IN`, { weekday: 'short' });
                 const fullDate = date.toLocaleString('en-IN', { day: 'numeric', month: 'short' });
-                const iconUrl = `https:${day.day.condition.icon}`;
-                html += `<div class="flex-shrink-0 w-36 text-center bg-blue-100 p-4 rounded-lg shadow"><p class="font-semibold text-blue-800">${dayName}, ${fullDate}</p><img src="${iconUrl}" alt="${day.day.condition.text}" class="mx-auto w-16 h-16"><p class="text-lg font-bold text-gray-800">${Math.round(day.day.avgtemp_c)}°C</p><p class="text-sm text-gray-600 capitalize">${day.day.condition.text}</p><p class="text-xs text-gray-500 mt-2">💧 ${day.day.avghumidity}%</p></div>`;
+                html += `<div class="flex-shrink-0 w-36 text-center bg-blue-100 p-4 rounded-lg shadow"><p class="font-semibold text-blue-800">${dayName}, ${fullDate}</p><img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="mx-auto w-16 h-16"><p class="text-lg font-bold text-gray-800">${Math.round(day.day.avgtemp_c)}°C</p><p class="text-sm text-gray-600 capitalize">${day.day.condition.text}</p><p class="text-xs text-gray-500 mt-2">💧 ${day.day.avghumidity}%</p></div>`;
             });
             html += `</div></div>`;
             weatherResultDiv.innerHTML = html;
         }
 
         // --- PRICES LOGIC ---
-        const stateSelectPrices = document.getElementById('state-select-prices');
-        const districtSelectPrices = document.getElementById('district-select-prices');
-        const districtSelectionPricesDiv = document.getElementById('district-selection-prices');
-        const pricesResultDiv = document.getElementById('prices-result');
-
-        Object.keys(locations).forEach(state => {
-            const option = document.createElement('option');
-            option.value = state;
-            option.textContent = state;
-            stateSelectPrices.appendChild(option);
-        });
-        
-        stateSelectPrices.addEventListener('change', () => {
-            const selectedState = stateSelectPrices.value;
-            districtSelectPrices.innerHTML = '<option value="">-- जिले का चयन करें --</option>';
-            pricesResultDiv.innerHTML = '';
-            if (selectedState) {
-                districtSelectionPricesDiv.classList.remove('hidden');
-                locations[selectedState].forEach(district => {
-                    const option = document.createElement('option');
-                    option.value = district;
-                    option.textContent = district;
-                    districtSelectPrices.appendChild(option);
-                });
-            } else {
-                districtSelectionPricesDiv.classList.add('hidden');
-            }
-        });
-
-        districtSelectPrices.addEventListener('change', () => {
-            const selectedState = stateSelectPrices.value;
-            const selectedDistrict = districtSelectPrices.value;
-            if (selectedDistrict && selectedState) {
-                displayPrices(selectedState, selectedDistrict);
-            }
-        });
-
         function displayPrices(state, district) {
-            const prices = cropPrices[state]?.[district];
+            const pricesResultDiv = document.getElementById('prices-result');
+            const prices = cropPrices[state]?.[district] || cropPrices['उत्तर प्रदेश']?.[district]; // Fallback for simplicity
             if (!prices) {
-                pricesResultDiv.innerHTML = `<div class="text-yellow-600 bg-yellow-100 p-4 rounded-lg">इस जिले के लिए मूल्य डेटा उपलब्ध नहीं है।</div>`;
+                pricesResultDiv.innerHTML = `<div class="text-yellow-800 bg-yellow-100 p-4 rounded-lg">${translations[currentLanguage].priceErrorNoData}</div>`;
                 return;
             }
-
-            let html = `<h3 class="text-2xl font-bold text-gray-700 mb-4 text-center">${district}, ${state} - मंडी भाव (प्रति क्विंटल)</h3>
-                        <div class="overflow-x-auto rounded-lg border border-gray-200">
-                            <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                                <thead class="ltr:text-left rtl:text-right">
-                                    <tr>
-                                        <th class="whitespace-nowrap px-4 py-3 font-medium text-gray-900">फसल</th>
-                                        <th class="whitespace-nowrap px-4 py-3 font-medium text-gray-900">अनुमानित मूल्य</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200 text-center">`;
+            let html = `<h3 class="text-xl font-bold text-gray-700 mb-4">${translations[currentLanguage].priceAnalysisTitle} ${district}</h3><div class="overflow-x-auto rounded-lg border border-gray-200"><table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm"><thead class="ltr:text-left rtl:text-right"><tr><th class="whitespace-nowrap px-4 py-3 font-medium text-gray-900">${translations[currentLanguage].crop}</th><th class="whitespace-nowrap px-4 py-3 font-medium text-gray-900">${translations[currentLanguage].price}</th></tr></thead><tbody class="divide-y divide-gray-200 text-center">`;
             
-            for (const crop in prices) {
-                html += `<tr>
-                            <td class="whitespace-nowrap px-4 py-3 font-medium text-gray-900">${crop}</td>
-                            <td class="whitespace-nowrap px-4 py-3 text-gray-700">₹ ${prices[crop].toLocaleString('hi-IN')}</td>
-                         </tr>`;
-            }
+            const currentCrops = crops[currentLanguage];
+            Object.keys(currentCrops).forEach(cropName => {
+                // Find the original hindi crop name to lookup price
+                let hindiCropName = Object.keys(crops.hi).find(key => crops[currentLanguage][key] === currentCrops[cropName]);
+                if(!hindiCropName) hindiCropName = Object.keys(crops.hi).find(key => crops.en[key] === currentCrops[cropName]);
+                if(!hindiCropName) hindiCropName = cropName;
 
-            html += `</tbody></table></div>
-                    <p class="mt-4 text-xs text-gray-500 text-center"><strong>अस्वीकरण:</strong> ये मूल्य अनुमानित हैं और वास्तविक मंडी भाव से भिन्न हो सकते हैं।</p>`;
+                const price = prices[hindiCropName] || 'N/A';
+                html += `<tr><td class="whitespace-nowrap px-4 py-3 font-medium text-gray-900">${cropName}</td><td class="whitespace-nowrap px-4 py-3 text-gray-700">₹ ${price.toLocaleString(`${currentLanguage}-IN`)}</td></tr>`;
+            });
+
+            html += `</tbody></table></div><p class="mt-4 text-xs text-gray-500 text-center">${translations[currentLanguage].disclaimerPrices}</p>`;
             pricesResultDiv.innerHTML = html;
         }
 
-
         // --- PESTICIDE LOGIC ---
-        const cropButtonsDiv = document.getElementById('crop-buttons');
-        const pesticideInfoDiv = document.getElementById('pesticide-info');
-        Object.keys(crops).forEach(cropName => {
-            const button = document.createElement('button');
-            button.className = 'bg-yellow-400 text-gray-800 p-4 rounded-lg shadow-md hover:bg-yellow-500 font-semibold transition-transform transform hover:scale-105';
-            button.textContent = cropName;
-            button.onclick = () => showPesticideInfo(cropName);
-            cropButtonsDiv.appendChild(button);
-        });
         function showPesticideInfo(cropName) {
+            const pesticideInfoDiv = document.getElementById('pesticide-info');
             pesticideInfoDiv.classList.remove('hidden');
-            const cropData = crops[cropName];
-            let html = `<h4 class="text-xl font-bold text-gray-800 mb-4">${cropName} के लिए कीटनाशक सुझाव</h4>`;
-            
+            const cropData = crops[currentLanguage][cropName];
+            let html = `<h4 class="text-xl font-bold text-gray-800 mb-4">${cropName} ${translations[currentLanguage].pesticideSuggestion}</h4>`;
             cropData.pesticides.forEach(pest => {
-                html += `
-                    <div class="mb-4 p-3 border rounded-lg bg-white shadow-sm">
-                        <p class="font-bold text-lg text-green-700">${pest.name}</p>
-                        <p class="text-gray-600"><span class="font-semibold">लक्ष्य:</span> ${pest.target}</p>
-                        <p class="text-gray-600"><span class="font-semibold">मात्रा:</span> ${pest.quantity}</p>
-                    </div>
-                `;
+                html += `<div class="mb-4 p-3 border rounded-lg bg-white shadow-sm"><p class="font-bold text-lg text-green-700">${pest.name}</p><p class="text-gray-600"><span class="font-semibold">${translations[currentLanguage].target}:</span> ${pest.target}</p><p class="text-gray-600"><span class="font-semibold">${translations[currentLanguage].quantity}:</span> ${pest.quantity}</p></div>`;
             });
-            
-             html += `<p class="mt-4 text-sm text-red-600"><strong>अस्वीकरण:</strong> किसी भी कीटनाशक का उपयोग करने से पहले कृपया एक स्थानीय कृषि विशेषज्ञ से सलाह लें। मात्रा और उपयोग विधि मिट्टी और मौसम की स्थिति के आधार पर भिन्न हो सकती है।</p>`;
-
+            html += `<p class="mt-4 text-sm text-red-600">${translations[currentLanguage].disclaimerPesticide}</p>`;
             pesticideInfoDiv.innerHTML = html;
         }
 
         // --- PROFIT LOGIC ---
-        const cropProfitSelect = document.getElementById('crop-profit-select');
-        const costInput = document.getElementById('cost-input');
-        const profitResultDiv = document.getElementById('profit-result');
-        Object.keys(crops).forEach(cropName => {
-            const option = document.createElement('option');
-            option.value = cropName;
-            option.textContent = cropName;
-            cropProfitSelect.appendChild(option);
-        });
         function calculateProfit() {
-            const selectedCrop = cropProfitSelect.value;
-            const cost = parseFloat(costInput.value);
+            const profitResultDiv = document.getElementById('profit-result');
+            const selectedCrop = document.getElementById('crop-profit-select').value;
+            const cost = parseFloat(document.getElementById('cost-input').value);
             if (!selectedCrop || isNaN(cost) || cost <= 0) {
-                profitResultDiv.innerHTML = `<p class="font-semibold text-red-700">कृपया मान्य फसल और लागत दर्ज करें।</p>`;
+                profitResultDiv.innerHTML = `<div class="text-red-700 bg-red-100 border border-red-200 p-4 rounded-lg"><p class="font-semibold">${translations[currentLanguage].profitError}</p></div>`;
                 profitResultDiv.classList.remove('hidden');
-                profitResultDiv.classList.remove('border-green-200', 'bg-green-100');
-                profitResultDiv.classList.add('border-red-200', 'bg-red-100');
                 return;
             }
-            const mandiPrice = crops[selectedCrop].mandi_price;
-            const averageYield = { "चावल": 20, "गेहूँ": 20, "मक्का": 25, "कपास": 10, "गन्ना": 300 }[selectedCrop];
+            const mandiPrice = crops[currentLanguage][selectedCrop].mandi_price;
+            const averageYield = { "Rice": 20, "चावल": 20, "ਚਾਵਲ": 20, "Wheat": 20, "गेहूँ": 20, "ਕਣਕ": 20, "Maize": 25, "मक्का": 25, "ਮੱਕੀ": 25, "Cotton": 10, "कपास": 10, "ਕਪਾਹ": 10, "Sugarcane": 300, "गन्ना": 300, "ਗੰਨਾ": 300 }[selectedCrop];
             const totalIncome = mandiPrice * averageYield;
             const profit = totalIncome - cost;
-            profitResultDiv.innerHTML = `
-                <h4 class="text-xl font-bold text-green-800 mb-2">${selectedCrop} के लिए लाभ विश्लेषण</h4>
-                <p class="text-gray-700">अनुमानित मंडी भाव: <span class="font-semibold">₹${mandiPrice}/क्विंटल</span></p>
-                <p class="text-gray-700">अनुमानित उपज: <span class="font-semibold">${averageYield} क्विंटल/एकड़</span></p>
-                <p class="text-gray-700">कुल आय: <span class="font-semibold">₹${totalIncome.toLocaleString('hi-IN')}</span></p>
-                <p class="text-gray-700">आपकी लागत: <span class="font-semibold">- ₹${cost.toLocaleString('hi-IN')}</span></p>
-                <hr class="my-2">
-                <p class="text-lg text-green-900">अनुमानित शुद्ध लाभ (प्रति एकड़): <span class="font-bold text-2xl">₹${profit.toLocaleString('hi-IN')}</span></p>`;
+            const t = translations[currentLanguage];
+            profitResultDiv.innerHTML = `<div class="text-left p-4 bg-green-100 border border-green-200 rounded-lg space-y-2"><h4 class="text-xl font-bold text-green-800 mb-2">${selectedCrop} ${t.profitAnalysisTitle}</h4><p>${t.marketPrice}: <span class="font-semibold">₹${mandiPrice.toLocaleString(`${currentLanguage}-IN`)}/क्विंटल</span></p><p>${t.yield}: <span class="font-semibold">${averageYield.toLocaleString(`${currentLanguage}-IN`)} क्विंटल/एकड़</span></p><p>${t.totalIncome}: <span class="font-semibold">₹${totalIncome.toLocaleString(`${currentLanguage}-IN`)}</span></p><p>${t.yourCost}: <span class="font-semibold">- ₹${cost.toLocaleString(`${currentLanguage}-IN`)}</span></p><hr class="border-green-300"><p class="text-lg text-green-900">${t.netProfit}: <span class="font-bold text-2xl">₹${profit.toLocaleString(`${currentLanguage}-IN`)}</span></p></div>`;
             profitResultDiv.classList.remove('hidden');
-            profitResultDiv.classList.remove('border-red-200', 'bg-red-100');
-            profitResultDiv.classList.add('border-green-200', 'bg-green-100');
         }
     </script>
 </body>
