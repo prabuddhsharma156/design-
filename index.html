@@ -510,7 +510,7 @@
         // --- WEATHER LOGIC ---
         async function fetchWeather(district) {
             const weatherResultDiv = document.getElementById('weather-result');
-            if (WEATHER_API_KEY === "a471efb91f4c4e29ac9135831252209" || !WEATHER_API_KEY) {
+            if (WEATHER_API_KEY === "YOUR_API_KEY" || !WEATHER_API_KEY) {
                 weatherResultDiv.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">${translations[currentLanguage].errorApiKey}</div>`;
                 return;
             }
